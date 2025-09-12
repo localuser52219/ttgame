@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>合體流程 · 1strisk × doubletap（純離線·主體）</title>
+  <title>尋找線索，守護婚禮</title>
   <style>
     :root{ --primary:#6f4c9b; --bg:#faf7fc; --ink:#22172a; --ok:#2e7d32; --bad:#c62828; }
     html,body{height:100%}
@@ -24,38 +24,15 @@
   <div class="wrap">
     <header>
       <span class="dot"></span>
-      <h1>合體流程 · <span id="stageBadge">初始化</span></h1>
+      <h1>尋找線索，守護婚禮 · <span id="stageBadge">初始化</span></h1>
     </header>
 
     <div id="app" class="card">
-      <p class="muted">載入中…</p>
-    </div>
-
-    <div class="card" style="margin-top:16px">
-      <details>
-        <summary>流程框架圖</summary>
-        <pre>
-[Start]
-  └─ Stage1: QxQy（1strisk）
-        成功 → Stage2（doubletap 配對）
-        失敗 → 重試或結束
-  └─ Gate2 口令2 → Stage3: Q1–Q4（1strisk，保留打字機＋答錯轉頁）
-        全對 → Stage4: 快速點擊文字（1strisk）
-        失敗 → 重試
-        完成 → END
-        </pre>
-      </details>
-      <details>
-        <summary>開發測試（E2E）</summary>
-        <p class="muted">
-          參數：<code>?e2e=1</code> 自動通過；<code>&failStage=2</code> 指定某關失敗。<br />
-          模組引入：<code>?useModules=1&s1=/stages/qxy.js&s2=/stages/match.js&s3=/stages/q14.js&s4=/stages/fasttap.js</code>
-        </p>
-      </details>
+      <p class="muted">準備開始…</p>
     </div>
   </div>
 
-  <!-- 主流程腳本（ESM） -->
+  <!-- 正式版：僅載入主流程腳本 -->
   <script type="module" src="/main.js"></script>
 </body>
 </html>
