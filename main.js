@@ -1,15 +1,10 @@
-// combined.js: 所有 JavaScript 檔案的合併版本
+// main.js (完整 4 關卡修正版)
 
 // 全局命名空間，用於存放各個關卡的模組
 const GameStages = {};
 
 // ===== Stage 1: qxy.js =====
 GameStages.stage1 = (() => {
-  // Stage1: QxQy 遊戲 Adapter（對接 1strisk 的 Qx/Qy 守門）
-  // 依據 1strisk 現有題庫與正解，僅實作 Qx 與 Qy，過關才 resolve(true)
-  // 失敗可重選；提供「放棄」按鈕可直接 resolve(false)
-
-  // ---- 取自 1strisk ----
   const correctGateAnswers = [2, 3]; // Qx: C, Qy: H
   const choiceLabels = {
     X: ["A", "B", "C", "D"],
@@ -20,7 +15,6 @@ GameStages.stage1 = (() => {
     "【提示】留意京都、八阪之塔、紫色與婚禮線索。"
   ];
 
-  // ---- 本關狀態 ----
   let _resolve;
   let gateChoices = [null, null];
 
@@ -29,33 +23,24 @@ GameStages.stage1 = (() => {
     app.innerHTML = `
       <h2>Stage1: QxQy 守門</h2>
       <div id="story-text" class="muted" style="text-align:center;margin-bottom:12px"></div>
-
       <div class="question-block">
         <div id="gate-question-x">
           <div class="q">Qx: Tracy 最喜歡的季節是？</div>
           <div class="choices" id="choicesX"></div>
         </div>
-
         <div id="gate-question-y" style="margin-top:8px">
           <div class="q">Qy: Dennis 最喜歡的遊戲類型是？</div>
           <div class="choices" id="choicesY"></div>
         </div>
-
         <div class="row" style="justify-content:center;margin-top:12px">
           <button id="submit" class="btn" disabled>確認</button>
           <button id="giveup" class="btn" style="background:var(--bad)">放棄</button>
         </div>
       </div>
     `;
-
-    // 打字機敘事
     typeStory(gateStoryTexts.join("\n\n"));
-
-    // 繪製選項
     makeGateChoices(0);
     makeGateChoices(1);
-
-    // 事件
     document.querySelector('#submit').addEventListener('click', () => {
       const passed = gateChoices[0] === correctGateAnswers[0] && gateChoices[1] === correctGateAnswers[1];
       if (passed) { _resolve?.(true); }
@@ -67,7 +52,6 @@ GameStages.stage1 = (() => {
     return new Promise(resolve => { _resolve = resolve; });
   }
 
-  // ---- 小工具 ----
   function makeGateChoices(qnum) {
     const key = qnum === 0 ? 'X' : 'Y';
     const labels = choiceLabels[key];
@@ -120,15 +104,10 @@ GameStages.stage1 = (() => {
   return { mount, run };
 })();
 
-
 // ===== Stage 2: match.js =====
 GameStages.stage2 = (() => {
-  // stages/match.js — 最終版（4×4｜20秒｜使用 ttWEDDING 圖片）
-  // 成功 → resolve(true)；逾時或放棄 → resolve(false)
-  // 依賴全域 CSS（.match-grid / .match-card 等）
-
   let _resolve;
-  let state = {};
+  let state = {}; // 💡 已修正：初始化 state 物件
 
   function mount() {
     const app = document.querySelector('#app');
@@ -147,35 +126,25 @@ GameStages.stage2 = (() => {
         <div id="result" class="result"></div>
       </footer>
     `;
-
     el.grid = qs('#grid');
     el.pairs = qs('#pairs');
     el.time = qs('#time');
     el.moves = qs('#moves');
     el.restart = qs('#restart');
-
     qs('#giveup').addEventListener('click', () => { cleanup(); _resolve?.(false); });
     el.restart.addEventListener('click', restart);
-
     init();
   }
 
   function run() { return new Promise(r => { _resolve = r; }); }
 
-  // ===== 設定（使用本地圖片） =====
   const CONFIG = {
     previewMs: 3000,
     timeLimitSec: 20,
     assets: {
       fronts: [
-        "/images/front_01.png",
-        "/images/front_02.png",
-        "/images/front_03.png",
-        "/images/front_04.png",
-        "/images/front_05.png",
-        "/images/front_06.png",
-        "/images/front_07.png",
-        "/images/front_08.png"
+        "/images/front_01.png","/images/front_02.png","/images/front_03.png","/images/front_04.png",
+        "/images/front_05.png","/images/front_06.png","/images/front_07.png","/images/front_08.png"
       ],
       back: "/images/back.png"
     },
@@ -193,7 +162,6 @@ GameStages.stage2 = (() => {
 
   const el = { grid: null, pairs: null, time: null, moves: null, restart: null };
 
-  // ===== 核心流程 =====
   function init() {
     buildDeck();
     mountGrid();
@@ -239,15 +207,12 @@ GameStages.stage2 = (() => {
       root.className = 'match-card';
       root.setAttribute('aria-label', '卡片');
       root.addEventListener('click', () => onFlip(card));
-
       const front = document.createElement('div');
       front.className = 'face front as-image';
       front.style.backgroundImage = `url("${card.src}")`;
-
       const back = document.createElement('div');
       back.className = 'face back as-image';
       back.style.backgroundImage = `url("${CONFIG.assets.back}")`;
-
       root.appendChild(front);
       root.appendChild(back);
       el.grid.appendChild(root);
@@ -313,41 +278,16 @@ GameStages.stage2 = (() => {
 
   function cancelAnim() { if (state?.rafId) cancelAnimationFrame(state.rafId); state.rafId = null; }
 
-  // ===== 工具 =====
   function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0;[a[i], a[j]] = [a[j], a[i]]; } return a; }
   function qs(s) { return document.querySelector(s) }
   function setNum(elOrSel, n) { const el = typeof elOrSel === 'string' ? qs(elOrSel) : elOrSel; el.textContent = String(n); }
   function setText(sel, t) { const node = qs(sel); if (node) node.textContent = t; }
 
-  // 圖片預載（除錯版本）
   function preloadAssets() {
-    console.log("--- [DEBUG] 開始預載入圖片 ---");
     const urls = [...CONFIG.assets.fronts, CONFIG.assets.back];
-    console.log("--- [DEBUG] 準備載入的圖片列表:", urls);
-
-    const promises = urls.map(src => new Promise(resolve => {
-      const img = new Image();
-      
-      img.onload = () => {
-        console.log(`✅ [DEBUG] 載入成功: ${src}`);
-        resolve({src, status: 'ok'});
-      };
-
-      img.onerror = () => {
-        console.error(`❌ [DEBUG] 載入失敗: ${src}`);
-        // 即使失敗也 resolve，讓遊戲可以繼續，但我們會知道哪張圖出錯
-        resolve({src, status: 'error'});
-      };
-
-      console.log(`⏳ [DEBUG] 開始請求: ${src}`);
-      img.src = src;
-    }));
-    
-    return Promise.all(promises).then(results => {
-      console.log("--- [DEBUG] 所有圖片預載入處理完畢 ---", results);
-      // 加一個額外的 .then 確保流程繼續
-      return results;
-    });
+    return Promise.all(urls.map(src => new Promise(res => {
+      const img = new Image(); img.onload = img.onerror = () => res(); img.src = src;
+    })));
   }
 
   function cleanup() { cancelAnim(); }
@@ -355,19 +295,9 @@ GameStages.stage2 = (() => {
   return { mount, run };
 })();
 
-
 // ===== Stage 3: q14.js =====
 GameStages.stage3 = (() => {
-  // Stage3: Q1–Q4（1strisk）+ 開始口令
-  // - 入口先輸入口令（URL 參數 p3，忽略前後空白與大小寫；未設定視為開發模式）
-  // - 題目與選項取自 1strisk：正解 C, A, B, D（索引 2,0,1,3）
-  // - 點選每題會顯示對應提示文案（打字機效果）
-  // - 全對顯示「我已經知道真相」按鈕 → resolve(true)
-  // - 任一題錯誤顯示相同按鈕 → 轉頁 https://ttwedding.jp/altermoment（保留原答錯轉頁）
-
   let _resolve;
-
-  // ===== 資料（來自 1strisk） =====
   const correctAnswers = [2, 0, 1, 3];
   const answerTips = [
     "他不是陌生人。",
@@ -382,12 +312,9 @@ GameStages.stage3 = (() => {
     "4": ["A. 新娘的美麗", "B. 新郎的元氣", "C. 賓客的祝福", "D. 求婚的戒指"],
   };
 
-  // ===== 狀態 =====
   let selected = [null, null, null, null];
   let typingTid = null;
 
-  // 工具
-  function pwEqual(a, b) { const norm = s => (s || '').trim().toLowerCase(); if (!b) return true; return norm(a) === norm(b); }
   function qs(s) { return document.querySelector(s); }
 
   function mount() {
@@ -399,27 +326,19 @@ GameStages.stage3 = (() => {
         <button class="btn" id="go3">開始答題</button>
         <p id="pwhint3" class="muted" style="margin:6px 0 0 0;width:100%;text-align:center"></p>
       </div>
-
       <div id="story-text" style="display:none;text-align:center; font-size:18px; margin-bottom:12px; color:#5c3e67;"></div>
-
       <div id="main-questions" style="display:none">
         <div class="q">Q1: Tracy 與 Dennis 是在哪一年認識的？</div>
         <div class="choices" id="choices1"></div>
-
         <div class="q">Q2: 他們的婚禮網站網址是？</div>
         <div class="choices" id="choices2"></div>
-
         <div class="q">Q3: 京都情書中，哪種小動物沒有出現？</div>
         <div class="choices" id="choices3"></div>
-
         <div class="q">Q4: 神秘人想要偷走的東西是？</div>
         <div class="choices" id="choices4"></div>
       </div>
-
       <div id="results-container" style="display:none"></div>
     `;
-
-    // 綁定口令事件
     const { p3, e2e } = parseQuery();
     const hint = qs('#pwhint3');
     if (!p3) hint.textContent = '提醒：URL 未設定 p3。暫以任意值通過（開發模式）。';
@@ -434,7 +353,6 @@ GameStages.stage3 = (() => {
   function run() { return new Promise(r => { _resolve = r; }); }
 
   function startQ14() {
-    // 顯示故事與題目
     qs('#stage3-gate').style.display = 'none';
     const story = qs('#story-text');
     const main = qs('#main-questions');
@@ -442,11 +360,7 @@ GameStages.stage3 = (() => {
     if (story) { story.style.display = 'block'; }
     if (main) { main.style.display = 'block'; }
     if (results) { results.style.display = 'none'; results.innerHTML = ''; }
-
-    // 打字機開場
     typeStory("神秘人偷偷留下的線索，提到一樣「重要的物品」將會被「借走」。為了守護這場婚禮，邀請你一同找出真相。但要解開這場謎題，你需要對新人的故事足夠了解。那個才是可疑的人呢？");
-
-    // 渲染四題
     for (let k = 1; k <= 4; k++) makeChoices(k);
   }
 
@@ -501,7 +415,8 @@ GameStages.stage3 = (() => {
       else { typingTid = null; }
     })();
   }
-
+    
+  function pwEqual(a, b) { const norm = s => (s || '').trim().toLowerCase(); if (!b) return true; return norm(a) === norm(b); }
   function parseQuery() {
     const p = new URLSearchParams(location.search);
     return { p3: p.get('p3') || '', e2e: p.get('e2e') === '1' };
@@ -510,19 +425,13 @@ GameStages.stage3 = (() => {
   return { mount, run };
 })();
 
-
 // ===== Stage 4: fasttap.js =====
 GameStages.stage4 = (() => {
-  // Stage4: 字母快速點擊（A–Z 隨機格）
-  // 成功即跳轉 https://ttwedding.jp/timetravel
-  // 規則：30 秒內依序點擊目標字串（預設 'Happymarriage'；可用 URL ?target=... 覆寫），格子為 A–Z 隨機，保證含正確字母。
-
   let _resolve;
   let state;
 
   function mount() {
     const app = document.querySelector('#app');
-    ensureStyle();
     app.innerHTML = `
       <h2>Stage4: 快速點擊字母</h2>
       <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
@@ -536,7 +445,6 @@ GameStages.stage4 = (() => {
       <section id="tap-grid" class="tap-grid" aria-label="快速點擊區"></section>
       <div id="tap-msg" class="muted" style="text-align:center;margin-top:8px"></div>
     `;
-
     const { target } = parseQuery();
     const DEFAULT = 'Happymarriage';
     state = {
@@ -544,10 +452,8 @@ GameStages.stage4 = (() => {
       idx: 0, secs: 30, mistakes: 0, playing: false, rafId: null, tStart: 0
     };
     state.word = state.word.toUpperCase();
-
     document.querySelector('#restart').onclick = restart;
     document.querySelector('#giveup').onclick = () => { finish(false, '放棄'); };
-
     buildGrid();
     start();
   }
@@ -560,7 +466,6 @@ GameStages.stage4 = (() => {
     const need = state.word[state.idx];
     const insertAt = Math.floor(Math.random() * 9);
     letters.splice(insertAt, 0, need);
-
     grid.innerHTML = '';
     letters.forEach(ch => {
       const btn = document.createElement('button');
@@ -569,7 +474,6 @@ GameStages.stage4 = (() => {
       btn.onclick = () => onTap(ch, btn);
       grid.appendChild(btn);
     });
-
     setText('#next', need);
     setText('#mistakes', state.mistakes);
     setText('#time', state.secs.toFixed(1));
@@ -622,41 +526,19 @@ GameStages.stage4 = (() => {
   function qs(s) { return document.querySelector(s); }
   function setText(sel, t) { const el = qs(sel); if (el) el.textContent = String(t); }
   function randLetter() { const A = 65; return String.fromCharCode(A + Math.floor(Math.random() * 26)); }
-
-  function ensureStyle() {
-    // This function is kept for structural integrity but is redundant
-    // if the main CSS file is correctly linked in the HTML.
-    if (document.getElementById('fasttap-style')) return;
-    const css = `
-    .tap-grid{display:grid;grid-template-columns:repeat(3,80px);gap:10px;justify-content:center}
-    .tap-btn{width:80px;height:80px;border-radius:12px;border:2px solid var(--primary);background:#f1e4f8;font-size:28px;font-weight:700;cursor:pointer}
-    .tap-btn.ok{background:#e3f2e7;border-color:var(--ok)}
-    .tap-btn.bad{background:#fdecea;border-color:var(--bad)}
-    `;
-    const style = document.createElement('style');
-    style.id = 'fasttap-style';
-    style.textContent = css;
-    document.head.appendChild(style);
-  }
-
   function parseQuery() { const p = new URLSearchParams(location.search); return { target: p.get('target') || '' }; }
 
   return { mount, run };
 })();
 
-
 // ===== Main Controller: main.js =====
 (() => {
-  // main.js —— 正式版流程控制（合併版）
-
-  // ===== 狀態與導入文案 =====
   const GameState = { stage: 0 };
   const INTRO = {
     title: '尋找線索，守護婚禮',
     lead: '有人預告會「借走」一件重要物件。請化身調查員，按順序破解四道關卡。'
   };
 
-  // ===== DOM =====
   const $ = (s, el = document) => el.querySelector(s);
   const app = $('#app');
   const badge = $('#stageBadge');
@@ -664,8 +546,7 @@ GameStages.stage4 = (() => {
     const m = { 1: 'Stage1 QxQy', 2: 'Stage2 配對', 3: 'Stage3 Q1–Q4', 4: 'Stage4 快速點擊' };
     if (badge) badge.textContent = m[n] || '初始化';
   };
-
-  // ===== 工具 =====
+    
   const pwEqual = (a, b) => {
     if (!b) return true;
     const norm = s => (s || '').trim().toLowerCase();
@@ -678,18 +559,15 @@ GameStages.stage4 = (() => {
     };
   };
 
-  // ===== 四關模組 =====
-  let Stages = [null, null, null, null, null]; // index 1-4
+  let Stages = [null, null, null, null, null];
 
   function setupStages() {
-    // 從全局 GameStages 物件加載關卡
     Stages[1] = GameStages.stage1;
     Stages[2] = GameStages.stage2;
     Stages[3] = GameStages.stage3;
     Stages[4] = GameStages.stage4;
   }
 
-  // ===== 導入畫面 =====
   function renderIntro() {
     app.innerHTML = `
       <h2>${INTRO.title}</h2>
@@ -705,7 +583,6 @@ GameStages.stage4 = (() => {
     $('#startBtn').onclick = () => runPipeline();
   }
 
-  // ===== Gate2（Stage2→Stage3 口令2） =====
   function renderGate2() {
     const { p2 } = getParams();
     return new Promise(resolve => {
@@ -729,31 +606,24 @@ GameStages.stage4 = (() => {
     });
   }
 
-  // ===== 主流程 =====
   async function runPipeline() {
-    // Stage1
     GameState.stage = 1; setStageLabel(1); Stages[1].mount();
     if (!(await Stages[1].run())) return endFail('Stage1 未通過');
 
-    // Stage2
     GameState.stage = 2; setStageLabel(2); Stages[2].mount();
     if (!(await Stages[2].run())) return retryOrStop(2);
 
-    // Gate2 → Stage3
     if (!(await renderGate2())) return endFail('口令 2 未通過');
 
-    // Stage3
     GameState.stage = 3; setStageLabel(3); Stages[3].mount();
     if (!(await Stages[3].run())) return retryOrStop(3);
 
-    // Stage4
     GameState.stage = 4; setStageLabel(4); Stages[4].mount();
     if (!(await Stages[4].run())) return retryOrStop(4);
 
     return endOk();
   }
 
-  // ===== 結束與重試 =====
   function endOk() {
     app.innerHTML = `<h2>完成</h2><p class="muted">你已完成全部關卡。</p><button class="btn" id="restart">重新開始</button>`;
     $('#restart').onclick = () => location.reload();
@@ -785,7 +655,6 @@ GameStages.stage4 = (() => {
     }
   }
 
-  // ===== 啟動 =====
   setupStages();
   renderIntro();
 })();
