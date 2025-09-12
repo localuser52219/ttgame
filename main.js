@@ -326,25 +326,21 @@ GameStages.stage3 = (() => {
         <button class="btn" id="go3">開始答題</button>
         <p id="pwhint3" class="muted" style="margin:6px 0 0 0;width:100%;text-align:center"></p>
       </div>
-      <div id="story-text" style="display:none;text-align:center; font-size:18px; margin-bottom:12px; color:#5c3e67;"></div>
-      <div id="main-questions" style="display:none">
-        <div class="q">Q1: Tracy 與 Dennis 是在哪一年認識的？</div>
-        <div class="choices" id="choices1"></div>
-        <div class="q">Q2: 他們的婚禮網站網址是？</div>
-        <div class="choices" id="choices2"></div>
-        <div class="q">Q3: 京都情書中，哪種小動物沒有出現？</div>
-        <div class="choices" id="choices3"></div>
-        <div class="q">Q4: 神秘人想要偷走的東西是？</div>
-        <div class="choices" id="choices4"></div>
-      </div>
-      <div id="results-container" style="display:none"></div>
+      // ... (後半段 HTML 內容不變)
     `;
-    const { p3, e2e } = parseQuery();
+
+    // 綁定口令事件
+    const correctPassword = 'superfriend'; // 1. 在這裡設定固定的正確密語
     const hint = qs('#pwhint3');
-    if (!p3) hint.textContent = '提醒：URL 未設定 p3。暫以任意值通過（開發模式）。';
+    const { e2e } = parseQuery(); // (保留 parseQuery 以便 e2e 測試使用)
+
     qs('#go3').onclick = () => {
       const val = qs('#pw3').value;
-      if (!pwEqual(val, p3)) { hint.textContent = '口令不正確。'; return; }
+      // 2. 將輸入值與我們設定的 correctPassword 進行比較
+      if (!pwEqual(val, correctPassword)) {
+        hint.textContent = '留意新人故事'; // 3. 更新錯誤提示訊息
+        return;
+      }
       startQ14();
     };
     if (e2e) { setTimeout(() => startQ14(), 200); }
