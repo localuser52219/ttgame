@@ -259,7 +259,7 @@ GameStages.stage2 = (() => {
     } else {
       const a = state.first, b = card;
       state.first = null; state.lock = true;
-      setTimeout(() => { flipDown(a); flipDown(b); state.lock = false; }, 800);
+      setTimeout(() => { flipDown(a); flipDown(b); state.lock = false; }, 400);
     }
   }
 
