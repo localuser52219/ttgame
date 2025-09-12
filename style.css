@@ -1,7 +1,8 @@
-/* style.css */
+/* style.css (整合後版本) */
 
 /* ----- 1. 全局設定與變數 (Global Settings & Variables) ----- */
 :root {
+  /* 來自 style.css 的原始變數 */
   --primary: #5c3e67; /* 主色：深紫色 */
   --primary-light: #8a6f93; /* 主色淺色版 */
   --accent: #e390c5; /* 輔助色：粉紫色 */
@@ -11,11 +12,18 @@
   --text-muted: #777; /* 靜音文字色 */
   --border-color: #ddd; /* 邊框色 */
 
+  /* 來自 index.html 的變數 (保留 --ok 和 --bad 作為備用) */
   --ok: #4CAF50;   /* 成功色：綠色 */
   --bad: #F44336;  /* 失敗色：紅色 */
   --warning: #FFC107; /* 警告色：黃色 */
 
-  --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  /* 來自 index.html 的變數 (已整合或被取代)
+  --primary:#6f4c9b; -> 已由 style.css 的 --primary 取代
+  --bg:#faf7fc; -> 已由下方的 body 背景漸層取代
+  --ink:#22172a; -> 已由 --text-dark 取代
+  */
+
+  --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Noto Sans TC', '微軟正黑體'; /* 新增中文字體 */
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
 }
@@ -24,6 +32,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  height: 100%; /* 來自 index.html */
 }
 
 body {
@@ -41,7 +53,8 @@ body {
 /* ----- 2. 佈局與通用元件 (Layout & General Components) ----- */
 .wrap {
   width: 100%;
-  max-width: 600px;
+  max-width: 940px; /* 使用 index.html 的較寬尺寸 */
+  margin: 0 auto;
   background-color: #fff;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -55,6 +68,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px; /* 來自 index.html */
 }
 
 header h1 {
@@ -65,22 +79,21 @@ header h1 {
   line-height: 1.3;
 }
 
+/* 來自 index.html 的 .dot 樣式，並結合 style.css 的設計 */
 header .dot {
   width: 10px;
   height: 10px;
   background-color: var(--accent);
   border-radius: 50%;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
   box-shadow: 0 0 0 4px rgba(227, 144, 197, 0.3);
+  /* 移除 position: absolute 以使用 flex gap 排列 */
 }
+
 
 #stageBadge {
   font-size: 18px;
   color: var(--primary-light);
-  font-weight: 400;
+  font-weight: 700; /* 使用 index.html 的粗體設定 */
   display: block;
   margin-top: 5px;
 }
@@ -88,8 +101,8 @@ header .dot {
 .card {
   background-color: #fff;
   padding: 20px;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 16px; /* 使用 index.html 的圓角設定 */
+  box-shadow: 0 8px 24px rgba(0,0,0,.06); /* 使用 index.html 的陰影設定 */
   margin-top: 20px;
 }
 
@@ -109,6 +122,7 @@ p {
 .muted {
   color: var(--text-muted);
   font-size: 14px;
+  opacity: .7; /* 來自 index.html */
 }
 
 .row {
@@ -125,8 +139,7 @@ p {
 
 /* ----- 3. 按鈕 (Buttons) ----- */
 .btn {
-  background-color: var(--primary);
-  color: #fff;
+  appearance: none; /* 來自 index.html */
   border: none;
   padding: 10px 20px;
   border-radius: 25px;
@@ -137,7 +150,10 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none; /* 確保作為連結時沒有下劃線 */
+  text-decoration: none;
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
 }
 
 .btn:hover {
@@ -157,6 +173,7 @@ p {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  opacity: .5; /* 來自 index.html */
 }
 
 .btn.selected {
@@ -170,11 +187,11 @@ p {
   background-color: var(--accent-light);
 }
 
-.btn[style*="background:var(--bad)"] { /* 為帶有背景變數 --bad 的按鈕設定 hover 效果 */
+.btn[style*="background:var(--bad)"] {
   background-color: var(--bad);
 }
 .btn[style*="background:var(--bad)"]:hover {
-  background-color: #E53935; /* 更深的紅色 */
+  background-color: #E53935;
 }
 
 .btn.result-btn {
@@ -189,14 +206,14 @@ p {
   background-color: var(--ok);
 }
 .btn.result-btn.correct:hover {
-  background-color: #66BB6A; /* 更深的綠色 */
+  background-color: #66BB6A;
 }
 
 .btn.result-btn.incorrect {
   background-color: var(--bad);
 }
 .btn.result-btn.incorrect:hover {
-  background-color: #E53935; /* 更深的紅色 */
+  background-color: #E53935;
 }
 
 
@@ -209,7 +226,7 @@ input[type="text"] {
   color: var(--text-dark);
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  flex-grow: 1; /* 讓輸入框自動填滿可用空間 */
+  flex-grow: 1;
   max-width: 250px;
 }
 
@@ -263,7 +280,7 @@ input[type="text"]:focus {
 
 /* 故事打字機效果 */
 #story-text {
-  min-height: 80px; /* 確保打字機有足夠空間 */
+  min-height: 80px;
   font-family: 'Courier New', Courier, monospace;
   white-space: pre-wrap;
   text-align: center;
@@ -274,17 +291,17 @@ input[type="text"]:focus {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   background-color: #fefefe;
-  display: block; /* 確保此處默認為 block */
+  display: block;
 }
 
 /* Heart Burst Effect (Stage1) */
 .heart {
   position: absolute;
-  color: #ff69b4; /* 粉紅色愛心 */
+  color: #ff69b4;
   font-size: 20px;
   opacity: 0;
   animation: heartBurst 1s forwards;
-  pointer-events: none; /* 防止阻擋下方按鈕點擊 */
+  pointer-events: none;
   transform-origin: center center;
 }
 
@@ -310,7 +327,7 @@ input[type="text"]:focus {
 
 .match-grid {
   display: grid;
-  grid-template-columns: repeat(4, 90px); /* 4x4 */
+  grid-template-columns: repeat(4, 90px);
   grid-template-rows: repeat(4, 90px);
   gap: 10px;
   justify-content: center;
@@ -327,12 +344,12 @@ input[type="text"]:focus {
   border: 2px solid var(--primary);
   border-radius: 8px;
   cursor: pointer;
-  background-color: transparent; /* 重要，讓背面能顯現 */
+  background-color: transparent;
   padding: 0;
 }
 
 .match-card:hover:not(.is-flipped):not(.is-matched) {
-  transform: translateY(-3px); /* 輕微上浮效果 */
+  transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -342,7 +359,7 @@ input[type="text"]:focus {
 
 .match-card.is-matched {
   opacity: 0.7;
-  pointer-events: none; /* 匹配後不可點擊 */
+  pointer-events: none;
   border-color: var(--ok);
   box-shadow: 0 0 0 2px var(--ok-light, rgba(76, 175, 80, 0.4));
 }
@@ -365,7 +382,7 @@ input[type="text"]:focus {
 }
 
 .match-card .back {
-  background-color: var(--primary); /* 預設牌背顏色 */
+  background-color: var(--primary);
 }
 
 .match-card .as-image {
@@ -379,7 +396,7 @@ input[type="text"]:focus {
   font-size: 18px;
   font-weight: 600;
   color: var(--text-dark);
-  min-height: 25px; /* 確保結果訊息有空間 */
+  min-height: 25px;
 }
 
 .result.ok { color: var(--ok); }
@@ -388,7 +405,7 @@ input[type="text"]:focus {
 /* 快速點擊遊戲 (Stage 4) */
 .tap-grid {
   display: grid;
-  grid-template-columns: repeat(3, 80px); /* 3x3 網格 */
+  grid-template-columns: repeat(3, 80px);
   gap: 10px;
   justify-content: center;
   margin: 20px auto;
@@ -399,7 +416,7 @@ input[type="text"]:focus {
   height: 80px;
   border-radius: 12px;
   border: 2px solid var(--primary);
-  background: #f1e4f8; /* 淺紫色背景 */
+  background: #f1e4f8;
   font-size: 28px;
   font-weight: 700;
   color: var(--primary);
@@ -456,10 +473,18 @@ input[type="text"]:focus {
 
 /* ----- 6. 響應式設計 (Responsive Design) ----- */
 @media (max-width: 480px) {
+  body {
+    padding: 0; /* 在小螢幕上移除 body 的 padding */
+  }
+  
   .wrap {
     padding: 20px 15px;
     border-radius: 0;
     box-shadow: none;
+    height: 100%; /* 讓 wrap 填滿整個畫面 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   header h1 {
