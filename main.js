@@ -327,7 +327,7 @@ GameStages.stage3 = (() => {
         <p id="pwhint3" class="muted" style="margin:6px 0 0 0;width:100%;text-align:center"></p>
       </div>
       // ... (後半段 HTML 內容不變)
-    `;
+    ;
 
     // 綁定口令事件
     const correctPassword = 'superfriend'; // 1. 在這裡設定固定的正確密語
