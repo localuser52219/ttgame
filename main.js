@@ -320,18 +320,36 @@ GameStages.stage2 = (() => {
   function setText(sel, t) { const node = qs(sel); if (node) node.textContent = t; }
 
   // 圖片預載（加速首輪體驗；任何一張失敗也不阻擋）
-  function preloadAssets() {
-    const urls = [...CONFIG.assets.fronts, CONFIG.assets.back];
-    return Promise.all(urls.map(src => new Promise(res => {
-      const img = new Image(); img.onload = img.onerror = () => res(); img.src = src;
-    })));
-  }
+  // ===== 請用此版本替換掉原本的 preloadAssets 函數 =====
+function preloadAssets() {
+  console.log("--- [DEBUG] 開始預載入圖片 ---");
+  const urls = [...CONFIG.assets.fronts, CONFIG.assets.back];
+  console.log("--- [DEBUG] 準備載入的圖片列表:", urls);
 
-  function cleanup() { cancelAnim(); }
+  const promises = urls.map(src => new Promise(resolve => {
+    const img = new Image();
 
-  return { mount, run };
-})();
+    img.onload = () => {
+      console.log(`✅ [DEBUG] 載入成功: ${src}`);
+      resolve({src, status: 'ok'});
+    };
 
+    img.onerror = () => {
+      console.error(`❌ [DEBUG] 載入失敗: ${src}`);
+      // 即使失敗也 resolve，讓遊戲可以繼續，但我們會知道哪張圖出錯
+      resolve({src, status: 'error'});
+    };
+
+    console.log(`⏳ [DEBUG] 開始請求: ${src}`);
+    img.src = src;
+  }));
+
+  return Promise.all(promises).then(results => {
+    console.log("--- [DEBUG] 所有圖片預載入處理完畢 ---", results);
+    // 加一個額外的 .then 確保流程繼續
+    return results;
+  });
+}
 
 // ===== Stage 3: q14.js =====
 GameStages.stage3 = (() => {
