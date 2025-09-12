@@ -128,7 +128,7 @@ GameStages.stage2 = (() => {
   // 依賴全域 CSS（.match-grid / .match-card 等）
 
   let _resolve;
-  let state;
+  let state = {};
 
   function mount() {
     const app = document.querySelector('#app');
