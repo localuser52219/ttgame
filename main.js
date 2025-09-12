@@ -1,4 +1,4 @@
-// main.js (完整 4 關卡最終修正版)
+// main.js (完整 4 關卡最終優化版)
 
 // 全局命名空間，用於存放各個關卡的模組
 const GameStages = {};
@@ -107,7 +107,7 @@ GameStages.stage1 = (() => {
 // ===== Stage 2: match.js =====
 GameStages.stage2 = (() => {
   let _resolve;
-  let state = {}; // 💡 已修正：初始化 state 物件
+  let state = {};
 
   function mount() {
     const app = document.querySelector('#app');
@@ -340,7 +340,6 @@ GameStages.stage3 = (() => {
       <div id="results-container" style="display:none"></div>
     `;
     
-    // 💡 已修正：綁定口令事件
     const correctPassword = 'superfriend';
     const hint = qs('#pwhint3');
     const { e2e } = parseQuery();
@@ -389,7 +388,7 @@ GameStages.stage3 = (() => {
     }
   }
 
- function checkFinalAnswers() {
+  function checkFinalAnswers() {
     const allCorrect = selected.every((c, i) => c === correctAnswers[i]);
     const results = qs('#results-container');
     const main = qs('#main-questions');
@@ -397,9 +396,8 @@ GameStages.stage3 = (() => {
     if (!results) return;
     results.innerHTML = '';
     const btn = document.createElement('button');
-    // 💡 修正：使用通用 btn 類別，並根據結果添加正確或錯誤的變體
-    btn.className = 'btn ' + (allCorrect ? 'result-btn correct' : 'result-btn incorrect'); // 👈 修改後的樣式
-    btn.textContent = allCorrect ? '已掌握真相' : '再想想看'; // 💡 修正：根據結果改變按鈕文字
+    btn.className = 'btn ' + (allCorrect ? 'result-btn correct' : 'result-btn incorrect');
+    btn.textContent = allCorrect ? '已掌握真相' : '再想想看';
     btn.onclick = () => {
       if (allCorrect) { _resolve?.(true); }
       else { window.location.href = 'https://ttwedding.jp/altermoment'; }
@@ -432,7 +430,137 @@ GameStages.stage3 = (() => {
   return { mount, run };
 })();
 
+
+// ===== Stage 4: fasttap.js (效能重構版) =====
 GameStages.stage4 = (() => {
+  let _resolve;
+  let state;
+
+  function mount() {
+    const app = document.querySelector('#app');
+    app.innerHTML = `
+      <h2>Stage4: 快速點擊字母</h2>
+      <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
+        <div>下一個字母：<b id="next">A</b></div>
+        <div>剩餘時間：<b id="time">30.0</b>s</div>
+        <div>失誤：<b id="mistakes">0</b></div>
+        <div class="spacer" style="flex:1"></div>
+        <button id="restart" class="btn">重新開始</button>
+        <button id="giveup" class="btn" style="background:var(--bad)">放棄</button>
+      </div>
+      <section id="tap-grid" class="tap-grid" aria-label="快速點擊區"></section>
+      <div id="tap-msg" class="muted" style="text-align:center;margin-top:8px"></div>
+    `;
+    const { target } = parseQuery();
+    const DEFAULT = 'Happymarriage';
+    state = {
+      word: (target && target.trim()) ? target : DEFAULT,
+      idx: 0, secs: 30, mistakes: 0, playing: false, rafId: null, tStart: 0,
+      buttons: []
+    };
+    state.word = state.word.toUpperCase();
+    
+    createGrid(); 
+    
+    document.querySelector('#restart').onclick = restart;
+    document.querySelector('#giveup').onclick = () => { finish(false, '放棄'); };
+    
+    updateGrid();
+    start();
+  }
+
+  function run() { return new Promise(r => { _resolve = r; }); }
+
+  function createGrid() {
+    const grid = qs('#tap-grid');
+    grid.innerHTML = '';
+    for (let i = 0; i < 9; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'tap-btn';
+      btn.addEventListener('click', () => onTap(btn));
+      grid.appendChild(btn);
+      state.buttons.push(btn);
+    }
+  }
+  
+  function updateGrid() {
+    const letters = Array.from({ length: 8 }, () => randLetter());
+    const need = state.word[state.idx];
+    const insertAt = Math.floor(Math.random() * 9);
+    letters.splice(insertAt, 0, need);
+
+    state.buttons.forEach((btn, i) => {
+      btn.textContent = letters[i];
+      btn.disabled = false;
+      btn.className = 'tap-btn';
+    });
+
+    setText('#next', need);
+    setText('#mistakes', state.mistakes);
+    setText('#time', state.secs.toFixed(1));
+    setText('#tap-msg', '請依序點擊目標字串');
+  }
+
+  function start() { state.playing = true; state.tStart = performance.now(); tick(); }
+  function restart() {
+    cancelAnim(); 
+    state.idx = 0; 
+    state.mistakes = 0;
+    state.tStart = 0;
+    updateGrid();
+    start(); 
+  }
+
+  function tick() {
+    if (!state.playing) return;
+    const elapsed = (performance.now() - state.tStart) / 1000;
+    const remain = Math.max(0, 30 - elapsed);
+    setText('#time', remain.toFixed(1));
+    if (remain <= 0) return finish(false, '時間到');
+    state.rafId = requestAnimationFrame(tick);
+  }
+  
+  function onTap(btn) {
+    if (!state.playing) return;
+    const ch = btn.textContent;
+    const need = state.word[state.idx];
+
+    if (ch !== need) {
+      state.mistakes++;
+      setText('#mistakes', state.mistakes);
+      btn.classList.add('bad');
+      setTimeout(() => btn.classList.remove('bad'), 200);
+    } else {
+      btn.disabled = true;
+      btn.classList.add('ok');
+      state.idx++;
+      if (state.idx >= state.word.length) { 
+        return finish(true); 
+      }
+      updateGrid();
+    }
+  }
+
+  function finish(ok, reason = '') {
+    cancelAnim();
+    state.playing = false;
+    if (ok) {
+      window.location.href = 'https://ttwedding.jp/timetravel';
+      setTimeout(() => _resolve?.(true), 0);
+    } else {
+      setText('#tap-msg', reason ? `失敗：${reason}` : '失敗');
+      _resolve?.(false);
+    }
+  }
+
+  function cancelAnim() { if (state?.rafId) cancelAnimationFrame(state.rafId); state.rafId = null; }
+  function qs(s) { return document.querySelector(s); }
+  function setText(sel, t) { const el = qs(sel); if (el) el.textContent = String(t); }
+  function randLetter() { const A = 65; return String.fromCharCode(A + Math.floor(Math.random() * 26)); }
+  function parseQuery() { const p = new URLSearchParams(location.search); return { target: p.get('target') || '' }; }
+
+  return { mount, run };
+})();
 
 // ===== Main Controller: main.js =====
 (() => {
