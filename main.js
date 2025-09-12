@@ -389,7 +389,7 @@ GameStages.stage3 = (() => {
     }
   }
 
-  function checkFinalAnswers() {
+ function checkFinalAnswers() {
     const allCorrect = selected.every((c, i) => c === correctAnswers[i]);
     const results = qs('#results-container');
     const main = qs('#main-questions');
@@ -397,8 +397,9 @@ GameStages.stage3 = (() => {
     if (!results) return;
     results.innerHTML = '';
     const btn = document.createElement('button');
-    btn.className = 'result-btn ' + (allCorrect ? 'correct' : 'incorrect');
-    btn.textContent = '我已經知道真相';
+    // 💡 修正：使用通用 btn 類別，並根據結果添加正確或錯誤的變體
+    btn.className = 'btn ' + (allCorrect ? 'result-btn correct' : 'result-btn incorrect'); // 👈 修改後的樣式
+    btn.textContent = allCorrect ? '已掌握真相' : '再想想看'; // 💡 修正：根據結果改變按鈕文字
     btn.onclick = () => {
       if (allCorrect) { _resolve?.(true); }
       else { window.location.href = 'https://ttwedding.jp/altermoment'; }
