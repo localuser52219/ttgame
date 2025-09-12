@@ -1,35 +1,24 @@
-/* style.css (包含全部 4 個關卡的完整版) */
+/* style.css (完整 4 關卡修正版) */
 
 /* ----- 1. 全局設定與變數 (Global Settings & Variables) ----- */
 :root {
-  --primary: #5c3e67; /* 主色：深紫色 */
-  --primary-light: #8a6f93; /* 主色淺色版 */
-  --accent: #e390c5; /* 輔助色：粉紫色 */
-  --accent-light: #f1b3e5; /* 輔助色淺色版 */
-  --background-light: #f8f0fc; /* 淺背景色 */
-  --text-dark: #333; /* 深文字色 */
-  --text-muted: #777; /* 靜音文字色 */
-  --border-color: #ddd; /* 邊框色 */
-
-  --ok: #4CAF50;   /* 成功色：綠色 */
-  --bad: #F44336;  /* 失敗色：紅色 */
-  --warning: #FFC107; /* 警告色：黃色 */
-
+  --primary: #5c3e67;
+  --primary-light: #8a6f93;
+  --accent: #e390c5;
+  --accent-light: #f1b3e5;
+  --background-light: #f8f0fc;
+  --text-dark: #333;
+  --text-muted: #777;
+  --border-color: #ddd;
+  --ok: #4CAF50;
+  --bad: #F44336;
+  --warning: #FFC107;
   --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Noto Sans TC', '微軟正黑體';
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
 }
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
 body {
   font-family: var(--font-body);
   line-height: 1.6;
@@ -53,7 +42,6 @@ body {
   padding: 30px;
   text-align: center;
 }
-
 header {
   margin-bottom: 25px;
   position: relative;
@@ -62,7 +50,6 @@ header {
   justify-content: center;
   gap: 12px;
 }
-
 header h1 {
   color: var(--primary);
   font-size: 28px;
@@ -70,7 +57,6 @@ header h1 {
   margin: 0;
   line-height: 1.3;
 }
-
 header .dot {
   width: 10px;
   height: 10px;
@@ -78,8 +64,6 @@ header .dot {
   border-radius: 50%;
   box-shadow: 0 0 0 4px rgba(227, 144, 197, 0.3);
 }
-
-
 #stageBadge {
   font-size: 18px;
   color: var(--primary-light);
@@ -87,7 +71,6 @@ header .dot {
   display: block;
   margin-top: 5px;
 }
-
 .card {
   background-color: #fff;
   padding: 20px;
@@ -95,26 +78,22 @@ header .dot {
   box-shadow: 0 8px 24px rgba(0,0,0,.06);
   margin-top: 20px;
 }
-
 h2 {
   color: var(--primary);
   font-size: 24px;
   margin-bottom: 15px;
   font-weight: 600;
 }
-
 p {
   font-size: 16px;
   color: var(--text-dark);
   margin-bottom: 15px;
 }
-
 .muted {
   color: var(--text-muted);
   font-size: 14px;
   opacity: .7;
 }
-
 .row {
   display: flex;
   align-items: center;
@@ -122,10 +101,7 @@ p {
   gap: 10px;
   flex-wrap: wrap;
 }
-
-.spacer {
-  flex-grow: 1;
-}
+.spacer { flex-grow: 1; }
 
 /* ----- 3. 按鈕 (Buttons) ----- */
 .btn {
@@ -145,19 +121,16 @@ p {
   color: #fff;
   font-weight: 700;
 }
-
 .btn:hover {
   background-color: var(--primary-light);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
-
 .btn:active {
   background-color: var(--primary);
   transform: translateY(0);
   box-shadow: none;
 }
-
 .btn[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
@@ -165,25 +138,15 @@ p {
   box-shadow: none;
   opacity: .5;
 }
-
 .btn.selected {
   background-color: var(--accent);
   color: white;
   border: 1px solid var(--accent);
   box-shadow: 0 0 0 3px rgba(227, 144, 197, 0.4);
 }
-
-.btn.selected:hover {
-  background-color: var(--accent-light);
-}
-
-.btn[style*="background:var(--bad)"] {
-  background-color: var(--bad);
-}
-.btn[style*="background:var(--bad)"]:hover {
-  background-color: #E53935;
-}
-
+.btn.selected:hover { background-color: var(--accent-light); }
+.btn[style*="background:var(--bad)"] { background-color: var(--bad); }
+.btn[style*="background:var(--bad)"]:hover { background-color: #E53935; }
 .btn.result-btn {
   margin-top: 20px;
   padding: 12px 25px;
@@ -191,21 +154,10 @@ p {
   font-weight: 600;
   min-width: 200px;
 }
-
-.btn.result-btn.correct {
-  background-color: var(--ok);
-}
-.btn.result-btn.correct:hover {
-  background-color: #66BB6A;
-}
-
-.btn.result-btn.incorrect {
-  background-color: var(--bad);
-}
-.btn.result-btn.incorrect:hover {
-  background-color: #E53935;
-}
-
+.btn.result-btn.correct { background-color: var(--ok); }
+.btn.result-btn.correct:hover { background-color: #66BB6A; }
+.btn.result-btn.incorrect { background-color: var(--bad); }
+.btn.result-btn.incorrect:hover { background-color: #E53935; }
 
 /* ----- 4. 輸入框 (Inputs) ----- */
 input[type="text"] {
@@ -219,7 +171,6 @@ input[type="text"] {
   flex-grow: 1;
   max-width: 250px;
 }
-
 input[type="text"]:focus {
   border-color: var(--primary-light);
   box-shadow: 0 0 0 3px rgba(92, 62, 103, 0.2);
@@ -228,15 +179,13 @@ input[type="text"]:focus {
 /* ----- 5. 關卡專用樣式 (Stage-specific Styles) ----- */
 
 /* QxQy & Q1-Q4 問題區塊 */
-.question-block .q,
-#main-questions .q {
+.question-block .q, #main-questions .q {
   font-size: 18px;
   font-weight: 600;
   color: var(--primary);
   margin-top: 20px;
   margin-bottom: 10px;
 }
-
 .choices {
   display: flex;
   flex-wrap: wrap;
@@ -244,7 +193,6 @@ input[type="text"]:focus {
   justify-content: center;
   margin-bottom: 15px;
 }
-
 .choices button {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
@@ -255,12 +203,10 @@ input[type="text"]:focus {
   transition: all 0.2s ease;
   font-size: 15px;
 }
-
 .choices button:hover:not(.selected) {
   background-color: #e0e0e0;
   border-color: #b0b0b0;
 }
-
 .choices button.selected {
   background-color: var(--accent);
   color: white;
@@ -294,13 +240,11 @@ input[type="text"]:focus {
   pointer-events: none;
   transform-origin: center center;
 }
-
 @keyframes heartBurst {
   0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 1; }
   20% { transform: scale(1.2); }
   100% { transform: translate(var(--random-x, 0), var(--random-y, -50px)) scale(0.5) rotate(var(--random-rot, 0deg)); opacity: 0; }
 }
-
 
 /* 配對遊戲 (Stage 2) */
 .hud {
@@ -309,12 +253,7 @@ input[type="text"]:focus {
   font-weight: 500;
   margin-bottom: 15px;
 }
-
-.hud b {
-  font-weight: 700;
-  color: var(--accent);
-}
-
+.hud b { font-weight: 700; color: var(--accent); }
 .match-grid {
   display: grid;
   grid-template-columns: repeat(4, 90px);
@@ -324,7 +263,6 @@ input[type="text"]:focus {
   perspective: 1000px;
   margin: 0 auto;
 }
-
 .match-card {
   width: 90px;
   height: 90px;
@@ -337,16 +275,13 @@ input[type="text"]:focus {
   background-color: transparent;
   padding: 0;
 }
-
 .match-card:hover:not(.is-flipped):not(.is-matched) {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-
 .match-card.is-flipped {
   transform: rotateY(180deg);
 }
-
 .match-card.is-matched {
   opacity: 0.7;
   cursor: default;
@@ -355,7 +290,6 @@ input[type="text"]:focus {
   box-shadow: none;
   transform: rotateY(180deg);
 }
-
 .match-card .face {
   position: absolute;
   top: 0;
@@ -369,22 +303,18 @@ input[type="text"]:focus {
   border-radius: 6px;
   overflow: hidden;
 }
-
 .match-card .front {
   transform: rotateY(180deg);
   background-color: #fefefe;
 }
-
 .match-card .back {
   background-color: var(--primary);
 }
-
 .match-card .as-image {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-
 .result {
   margin-top: 15px;
   font-size: 18px;
@@ -392,7 +322,6 @@ input[type="text"]:focus {
   color: var(--text-dark);
   min-height: 25px;
 }
-
 .result.ok { color: var(--ok); }
 .result.fail { color: var(--bad); }
 
@@ -404,7 +333,6 @@ input[type="text"]:focus {
   justify-content: center;
   margin: 20px auto;
 }
-
 .tap-btn {
   width: 80px;
   height: 80px;
@@ -420,30 +348,25 @@ input[type="text"]:focus {
   justify-content: center;
   align-items: center;
 }
-
 .tap-btn:hover:not(:disabled) {
   background: var(--accent-light);
   border-color: var(--accent);
   transform: scale(1.05);
 }
-
 .tap-btn:active:not(:disabled) {
   transform: scale(0.98);
 }
-
 .tap-btn.ok {
   background: var(--ok);
   border-color: var(--ok);
   color: white;
 }
-
 .tap-btn.bad {
   background: var(--bad);
   border-color: var(--bad);
   color: white;
   animation: shake 0.3s ease-in-out;
 }
-
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -451,14 +374,12 @@ input[type="text"]:focus {
   75% { transform: translateX(-5px); }
   100% { transform: translateX(0); }
 }
-
 .tap-btn:disabled {
   background: #e0e0e0;
   color: #a0a0a0;
   cursor: not-allowed;
   border-color: #ccc;
 }
-
 #tap-msg {
   margin-top: 15px;
   font-size: 16px;
@@ -467,10 +388,7 @@ input[type="text"]:focus {
 
 /* ----- 6. 響應式設計 (Responsive Design) ----- */
 @media (max-width: 480px) {
-  body {
-    padding: 0;
-  }
-  
+  body { padding: 0; }
   .wrap {
     padding: 20px 15px;
     border-radius: 0;
@@ -480,54 +398,21 @@ input[type="text"]:focus {
     flex-direction: column;
     justify-content: center;
   }
-
-  header h1 {
-    font-size: 24px;
-  }
-
-  #stageBadge {
-    font-size: 16px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  .btn {
-    padding: 8px 15px;
-    font-size: 14px;
-    min-width: 100px;
-  }
-
-  input[type="text"] {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-
-  .row {
-    flex-direction: column;
-    gap: 15px;
-  }
-
+  header h1 { font-size: 24px; }
+  #stageBadge { font-size: 16px; }
+  h2 { font-size: 20px; }
+  .btn { padding: 8px 15px; font-size: 14px; min-width: 100px; }
+  input[type="text"] { padding: 8px 12px; font-size: 14px; }
+  .row { flex-direction: column; gap: 15px; }
   .match-grid {
     grid-template-columns: repeat(4, 70px);
     grid-template-rows: repeat(4, 70px);
     gap: 8px;
   }
-
-  .match-card {
-    width: 70px;
-    height: 70px;
-  }
-
+  .match-card { width: 70px; height: 70px; }
   .tap-grid {
     grid-template-columns: repeat(3, 70px);
     gap: 8px;
   }
-
-  .tap-btn {
-    width: 70px;
-    height: 70px;
-    font-size: 24px;
-  }
+  .tap-btn { width: 70px; height: 70px; font-size: 24px; }
 }
