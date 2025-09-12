@@ -1,29 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>尋找線索，守護婚禮</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>翻牌記憶遊戲</title>
+  <style>
+    /* 這裡是您 style副本.css 的內容，我已為您修正 .card.is-matched 規則 */
+    :root{
+      --bg:#f7f2fb;
+      --card:#ece2f3;
+      --ink:#4c3652;
+      --key:#8a63a5;
+      --ok:#5aa37d;
+      --err:#c0564a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:var(--bg);color:var(--ink);
+      font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC",sans-serif
+    }
+    .wrap{max-width:720px;margin:0 auto;padding:12px}
+    .title{margin:8px 0 2px;font-size:24px;color:var(--ink)}
+    .subtitle{margin:0 0 10px;color:#6b5a71}
 
-  <meta name="description" content="一場互動解謎遊戲，化身調查員，破解四道關卡，尋找線索並守護一場重要的婚禮。">
+    .hud{
+      display:flex;gap:12px;align-items:center;
+      background:#fff7;backdrop-filter:saturate(1.1);
+      border:1px solid #d9c8ea;border-radius:14px;padding:10px 12px
+    }
+    .spacer{flex:1}
+    .btn{
+      border:0;border-radius:10px;padding:8px 14px;cursor:pointer;
+      background:#d9c8ea;color:var(--ink);font-weight:700
+    }
+    .btn-primary{background:var(--key);color:#fff}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
 
-  <link rel="icon" type="image/png" href="https://ttweddingjp.wordpress.com/wp-content/uploads/2025/07/cropped-e8b387e794a2-3404x.png">
+    .grid{
+      margin-top:12px;
+      display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+      perspective:900px
+    }
+    .card{
+      position:relative;width:100%;aspect-ratio:1/1;cursor:pointer;
+      border-radius:12px;transform-style:preserve-3d;transition:transform .35s ease;
+      outline:none
+    }
+    .card.is-flipped{transform:rotateY(180deg)}
+    
+    /* --- 💡 已修正的區塊 --- */
+    .card.is-matched{
+      pointer-events:none;
+      animation:pop .35s ease;
+      transform:rotateY(180deg); /* 關鍵修正：強制鎖定在正面 */
+    }
+    /* --- 💡 已修正的區塊 --- */
 
-  <link rel="stylesheet" href="style.css">
-  
+    @keyframes pop{0%{transform:scale(.9) rotateY(180deg)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+    .face{
+      position:absolute;inset:0;border-radius:12px;overflow:hidden;
+      backface-visibility:hidden;box-shadow:0 2px 10px #00000014
+    }
+    .face.front{transform:rotateY(180deg);background:#000 center/cover no-repeat}
+    .face.back{background:var(--card) center/cover no-repeat}
+
+    .result{margin-top:10px;font-weight:700}
+    .result.ok{color:var(--ok)}
+    .result.fail{color:var(--err)}
+
+    @media (max-width:420px){
+      .wrap{padding:10px}
+      .hud{gap:8px}
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <span class="dot"></span>
-      <h1>尋找線索，守護婚禮 · <span id="stageBadge">初始化</span></h1>
-    </header>
 
-    <div id="app" class="card">
-      <p class="muted">準備開始…</p>
+  <div class="wrap">
+    <h1 class="title">翻牌記憶遊戲</h1>
+    <p class="subtitle">在時限內找出所有成對的卡片。</p>
+    
+    <div class="hud">
+      <div>配對: <b id="pairs">0</b>/8</div>
+      <div>時間: <b id="time">20.0</b>s</div>
+      <div>步數: <b id="moves">0</b></div>
+      <div class="spacer"></div>
+      <button id="restart" class="btn btn-primary">重新開始</button>
     </div>
+    
+    <div id="grid" class="grid"></div>
+    
+    <div id="result" class="result"></div>
   </div>
 
-  <script type="module" src="main.js"></script>
+  <script src="script副本.js"></script>
 </body>
 </html>
