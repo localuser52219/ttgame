@@ -277,7 +277,6 @@ input[type="text"]:focus {
 }
 .match-card:hover:not(.is-flipped):not(.is-matched) {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 .match-card.is-flipped {
   transform: rotateY(180deg);
