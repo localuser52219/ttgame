@@ -537,3 +537,25 @@ input[type="text"]:focus {
     font-size: 24px;
   }
 }
+/* ===== Stage 2 排版修正程式碼 ===== */
+/* 請將這段程式碼加到 style.css 檔案的最尾端 */
+
+.match-grid {
+  display: grid; /* 再次確保網格佈局 */
+  justify-content: center;
+}
+
+.match-card {
+  padding: 0;
+  border: 2px solid var(--primary);
+  background-color: transparent;
+  position: relative; /* 強制設定父層為相對定位 */
+}
+
+.match-card .face {
+  position: absolute; /* 強制設定子層(牌面)為絕對定位 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
