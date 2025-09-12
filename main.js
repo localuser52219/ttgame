@@ -166,18 +166,18 @@ GameStages.stage2 = (() => {
   const CONFIG = {
     previewMs: 3000,
     timeLimitSec: 20,
-    assets: {
+assets: {
       fronts: [
-        "https://ttwedding.jp/images/front_01.png",
-        "https://ttwedding.jp/images/front_02.png",
-        "https://ttwedding.jp/images/front_03.png",
-        "https://ttwedding.jp/images/front_04.png",
-        "https://ttwedding.jp/images/front_05.png",
-        "https://ttwedding.jp/images/front_06.png",
-        "https://ttwedding.jp/images/front_07.png",
-        "https://ttwedding.jp/images/front_08.png"
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_01.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_02.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_03.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_04.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_05.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_06.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_07.png",
+        "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/front_08.png"
       ],
-      back: "https://ttwedding.jp/images/back.png"
+      back: "https://ttweddingjp.wordpress.com/wp-content/uploads/2025/09/back.png"
     },
     onWin: ({ timeSec, moves }) => {
       setText('#result', `完成，用時 ${timeSec.toFixed(1)}s，翻牌 ${moves} 次`);
