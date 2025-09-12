@@ -1,303 +1,72 @@
-/* 遊戲整體樣式 */
-body {
-    background-color: #f9f5fb;
-    font-family: "Noto Sans TC", "思源黑體", sans-serif;
-    color: #4c3652;
-    margin: 0;
-    padding: 0;
-}
+/* style.css —— 正式版通用樣式 */
 
-.title-bar {
-    background: linear-gradient(to right, #d8c6e5, #f1e4f8);
-    padding: 24px 10px;
-    text-align: center;
-    color: #3c254d;
-    border-bottom: 2px solid #a288b3;
-    box-shadow: 0 2px 6px rgba(100, 50, 100, 0.1);
-}
+/* 基本配色與版面 */
+:root{ --primary:#6f4c9b; --bg:#faf7fc; --ink:#22172a; --ok:#2e7d32; --bad:#c62828; }
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Noto Sans TC','微軟正黑體',sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:940px;margin:0 auto;padding:24px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--primary)}
+h1{font-size:18px;margin:0}
+#stageBadge{font-weight:700;color:var(--primary)}
+.card{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:20px}
 
-.title-bar h1 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: 1px;
-}
+/* 公用元件 */
+.btn{appearance:none;border:0;border-radius:12px;padding:10px 16px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.muted{opacity:.7;font-size:14px}
 
-.title-bar .en {
-    font-size: 16px;
-    color: #5e4a6a;
-    margin-top: 6px;
-    display: block;
-    font-family: "Playfair Display", serif;
+/* Stage1：愛心特效 */
+.heart{
+  position:absolute;width:10px;height:10px;background:var(--primary);
+  transform:rotate(-45deg);opacity:.85;pointer-events:none;
 }
+.heart::before,.heart::after{
+  content:'';position:absolute;width:10px;height:10px;background:var(--primary);border-radius:50%;
+}
+.heart::before{top:-5px;left:0}
+.heart::after{left:5px;top:0}
 
-.question-block {
-    text-align: center;
-    margin-top: 30px;
+/* Stage2：配對遊戲（避免與面板 .card 衝突，使用 .match-card） */
+.match-grid{display:grid;grid-template-columns:repeat(4,80px);gap:12px;justify-content:center}
+.match-card{position:relative;width:80px;height:80px;border:none;border-radius:10px;perspective:800px;background:transparent;cursor:pointer}
+.match-card .face{
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  position:absolute;inset:0;background:#f1e4f8;border-radius:10px;
+  backface-visibility:hidden;transition:transform .35s ease
 }
+.match-card .face.as-image{background-size:cover;background-position:center;font-size:0}
+.match-card .back{background:#ece2f3;transform:rotateY(0deg)}
+.match-card .front{transform:rotateY(180deg)}
+.match-card.is-flipped .back{transform:rotateY(-180deg)}
+.match-card.is-flipped .front{transform:rotateY(0deg)}
+.match-card.is-matched{outline:2px solid var(--primary)}
+.result{min-height:20px}
+.result.ok{color:var(--ok)}
+.result.fail{color:var(--bad)}
 
-.q {
-    font-size: 18px;
-    margin: 16px 0 6px;
-    font-weight: bold;
-    color: #5c3e67;
+/* Stage3：選項與結果按鈕 */
+.choices button{
+  padding:10px 18px;margin:4px;border:none;border-radius:12px;
+  background-color:#ece2f3;color:#4c3652;font-weight:700;font-size:16px;
+  cursor:pointer;transition:all .2s ease;
 }
+.choices button.selected{background:var(--primary);color:#fff}
+.result-btn{padding:12px 20px;margin-top:16px;border:none;border-radius:12px;font-size:16px;cursor:pointer}
+.result-btn.correct{background:var(--ok);color:#fff}
+.result-btn.incorrect{background:var(--bad);color:#fff}
 
-/* 選擇按鈕樣式 */
-.choices {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px; /* 按鈕間距 */
-    margin-bottom: 12px;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
+/* Stage4：字母快速點擊 */
+.tap-grid{display:grid;grid-template-columns:repeat(3,80px);gap:10px;justify-content:center}
+.tap-btn{width:80px;height:80px;border-radius:12px;border:2px solid var(--primary);background:#f1e4f8;font-size:28px;font-weight:700;cursor:pointer}
+.tap-btn.ok{background:#e3f2e7;border-color:var(--ok)}
+.tap-btn.bad{background:#fdecea;border-color:var(--bad)}
 
-.choices button {
-    flex: 0 0 calc(50% - 8px); /* 每行兩個按鈕 */
-    box-sizing: border-box;
-    padding: 10px 18px;
-    margin: 0;
-    border: none;
-    border-radius: 12px;
-    background-color: #ece2f3;
-    color: #4c3652;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative; 
-}
-
-.choices button:hover {
-    background-color: #d5c0e0;
-}
-
-.choices button.selected {
-    background-color: #a05ba0;
-    color: white;
-    box-shadow: 0 0 8px rgba(160, 91, 160, 0.5);
-}
-
-/* 結果按鈕樣式 */
-#results-container {
-    margin-top: 30px;
-    padding: 20px;
-    min-height: 60px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.result-btn {
-    padding: 12px 40px;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: white;
-}
-
-.result-btn.correct {
-    background-color: #a05ba0; 
-    box-shadow: 0 4px 8px rgba(160, 91, 160, 0.3);
-}
-.result-btn.correct:hover {
-    background-color: #7e4684; 
-}
-
-.result-btn.incorrect {
-    background-color: #a05ba0; 
-    box-shadow: 0 4px 8px rgba(160, 91, 160, 0.3);
-}
-.result-btn.incorrect:hover {
-    background-color: #7e4684; 
-}
-
-
-/* 重設按鈕樣式 */
-#reset-btn {
-    margin-top: 20px;
-    padding: 10px 30px;
-    background-color: #a05ba0;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(100, 50, 100, 0.2);
-    transition: background-color 0.3s;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#reset-btn:hover {
-    background-color: #7e4684;
-}
-
-/* 愛心動畫樣式 (已修正) */
-.heart {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: pink;
-    animation: floatHeart 1s ease-out forwards;
-    z-index: 999;
-    pointer-events: none; 
-    /* 【修正】移除基礎 transform，完全交由 JS 控制初始狀態 */
-}
-
-.heart::before,
-.heart::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: pink;
-    border-radius: 50%;
-}
-
-.heart::before {
-    top: -6px;
-    left: 0;
-}
-
-.heart::after {
-    left: 6px;
-    top: 0;
-}
-
-@keyframes floatHeart {
-    /* 【修正】移除 0% 狀態的 transform，使其從 JS 設定的行內樣式開始動畫 */
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        /* 結束狀態的 transform 包含了最終位移和旋轉 */
-        transform: translateY(-80px) scale(1.4) rotate(-45deg);
-    }
-}
-
-@keyframes fadeSlideDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.fade-in {
-    opacity: 0;
-    animation: fadeSlideDown 1s ease-out forwards;
-}
-
-/* 快速點擊遊戲樣式 */
-#click-game-container {
-    margin-top: 30px;
-    padding: 20px;
-    border-radius: 16px;
-    background-color: #fff;
-    box-shadow: 0 4px 12px rgba(100, 50, 100, 0.15);
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.click-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    margin-top: 20px;
-    max-width: 300px; 
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.grid-button {
-    width: 80px; 
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    border: 2px solid #a05ba0;
-    border-radius: 10px;
-    background-color: #f1e4f8;
-    color: #4c3652;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.grid-button:hover {
-    background-color: #d5c0e0;
-    box-shadow: 0 0 8px rgba(160, 91, 160, 0.5);
-}
-
-.grid-button.correct {
-    background-color: #a05ba0;
-    color: white;
-    animation: pulse 0.3s ease-out;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.timer {
-    font-size: 24px;
-    font-weight: bold;
-    color: #e04f4f;
-    margin-top: 15px;
-}
-
-#target-word-display {
-    font-size: 18px;
-    font-weight: bold;
-    color: #5c3e67;
-    margin: 0;
-}
-
-.game-message {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #5c3e67;
-}
-
-.game-message.win {
-    color: #28a745;
-}
-
-.game-message.lose {
-    color: #dc3545;
-}
-
-#retry-click-game-btn {
-    margin-top: 20px;
-    padding: 10px 30px;
-    background-color: #a05ba0;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(100, 50, 100, 0.2);
-    transition: background-color 0.3s;
-}
-
-#retry-click-game-btn:hover {
-    background-color: #7e4684;
+/* 響應式微調 */
+@media (max-width: 420px){
+  .match-grid{grid-template-columns:repeat(4,64px);gap:10px}
+  .match-card{width:64px;height:64px}
+  .tap-grid{grid-template-columns:repeat(3,64px);gap:8px}
+  .tap-btn{width:64px;height:64px;font-size:22px}
 }
