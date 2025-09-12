@@ -1,4 +1,4 @@
-/* style.css (最終版 - 移除匹配後的變色效果) */
+/* style.css (完整 4 關卡最終修正版) */
 
 /* ----- 1. 全局設定與變數 (Global Settings & Variables) ----- */
 :root {
@@ -279,26 +279,16 @@ input[type="text"]:focus {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-
 .match-card.is-flipped {
   transform: rotateY(180deg);
 }
-
-/* --- 💡 最終樣式修正 --- */
 .match-card.is-matched {
-  /* 鎖定行為 */
   cursor: default;
   pointer-events: none;
-  
-  /* 鎖定在正面 */
   transform: rotateY(180deg);
-
-  /* 移除 hover 效果並確保無顏色變化 */
   opacity: 1;
   box-shadow: none; 
 }
-/* --- 💡 最終樣式修正 --- */
-
 .match-card .face {
   position: absolute;
   top: 0;
