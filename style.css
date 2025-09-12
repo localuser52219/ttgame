@@ -1,4 +1,4 @@
-/* style.css (最終重整版, 無 !important) */
+/* style.css (包含全部 4 個關卡的完整版) */
 
 /* ----- 1. 全局設定與變數 (Global Settings & Variables) ----- */
 :root {
@@ -343,33 +343,18 @@ input[type="text"]:focus {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-
-/***** 💡 START: CSS 重整 *****/
-
-/* 規則1：定義「已翻面」的狀態。
-   這適用於任何一張被使用者點開、但尚未確認是否匹配的卡片。*/
 .match-card.is-flipped {
   transform: rotateY(180deg);
 }
 
-/* 規則2：定義「已匹配」的最終鎖定狀態。
-   這個規則定義了匹配成功後卡片的所有樣式，包括它必須是正面朝上。*/
 .match-card.is-matched {
-  /* 行為樣式 */
   opacity: 0.7;
   cursor: default;
   pointer-events: none;
-  
-  /* 外觀樣式 (無綠色框) */
   border-color: var(--primary);
   box-shadow: none;
-  
-  /* 形態樣式 (鎖定在正面) */
   transform: rotateY(180deg);
 }
-
-/***** 💡 END: CSS 重整 *****/
-
 
 .match-card .face {
   position: absolute;
