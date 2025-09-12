@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>合體流程 · 1strisk × doubletap（純離線·主體）</title>
+  <style>
+    :root{ --primary:#6f4c9b; --bg:#faf7fc; --ink:#22172a; --ok:#2e7d32; --bad:#c62828; }
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Noto Sans TC','微軟正黑體',sans-serif;color:var(--ink);background:var(--bg)}
+    .wrap{max-width:940px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--primary)}
+    h1{font-size:18px;margin:0}
+    #stageBadge{font-weight:700;color:var(--primary)}
+    .card{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:20px}
+    .btn{appearance:none;border:0;border-radius:12px;padding:10px 16px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+    .btn[disabled]{opacity:.5;cursor:not-allowed}
+    .muted{opacity:.7;font-size:14px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="dot"></span>
+      <h1>合體流程 · <span id="stageBadge">初始化</span></h1>
+    </header>
+
+    <div id="app" class="card">
+      <p class="muted">載入中…</p>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <details>
+        <summary>流程框架圖</summary>
+        <pre>
+[Start]
+  └─ Stage1: QxQy（1strisk）
+        成功 → Stage2（doubletap 配對）
+        失敗 → 重試或結束
+  └─ Gate2 口令2 → Stage3: Q1–Q4（1strisk，保留打字機＋答錯轉頁）
+        全對 → Stage4: 快速點擊文字（1strisk）
+        失敗 → 重試
+        完成 → END
+        </pre>
+      </details>
+      <details>
+        <summary>開發測試（E2E）</summary>
+        <p class="muted">
+          參數：<code>?e2e=1</code> 自動通過；<code>&failStage=2</code> 指定某關失敗。<br />
+          模組引入：<code>?useModules=1&s1=/stages/qxy.js&s2=/stages/match.js&s3=/stages/q14.js&s4=/stages/fasttap.js</code>
+        </p>
+      </details>
+    </div>
+  </div>
+
+  <!-- 主流程腳本（ESM） -->
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
