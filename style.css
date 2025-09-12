@@ -1,8 +1,7 @@
-/* style.css (整合後版本) */
+/* style.css (最終修正版) */
 
 /* ----- 1. 全局設定與變數 (Global Settings & Variables) ----- */
 :root {
-  /* 來自 style.css 的原始變數 */
   --primary: #5c3e67; /* 主色：深紫色 */
   --primary-light: #8a6f93; /* 主色淺色版 */
   --accent: #e390c5; /* 輔助色：粉紫色 */
@@ -12,18 +11,11 @@
   --text-muted: #777; /* 靜音文字色 */
   --border-color: #ddd; /* 邊框色 */
 
-  /* 來自 index.html 的變數 (保留 --ok 和 --bad 作為備用) */
   --ok: #4CAF50;   /* 成功色：綠色 */
   --bad: #F44336;  /* 失敗色：紅色 */
   --warning: #FFC107; /* 警告色：黃色 */
 
-  /* 來自 index.html 的變數 (已整合或被取代)
-  --primary:#6f4c9b; -> 已由 style.css 的 --primary 取代
-  --bg:#faf7fc; -> 已由下方的 body 背景漸層取代
-  --ink:#22172a; -> 已由 --text-dark 取代
-  */
-
-  --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Noto Sans TC', '微軟正黑體'; /* 新增中文字體 */
+  --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Noto Sans TC', '微軟正黑體';
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
 }
@@ -35,7 +27,7 @@
 }
 
 html, body {
-  height: 100%; /* 來自 index.html */
+  height: 100%;
 }
 
 body {
@@ -53,7 +45,7 @@ body {
 /* ----- 2. 佈局與通用元件 (Layout & General Components) ----- */
 .wrap {
   width: 100%;
-  max-width: 940px; /* 使用 index.html 的較寬尺寸 */
+  max-width: 940px;
   margin: 0 auto;
   background-color: #fff;
   border-radius: var(--border-radius);
@@ -68,7 +60,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px; /* 來自 index.html */
+  gap: 12px;
 }
 
 header h1 {
@@ -79,21 +71,19 @@ header h1 {
   line-height: 1.3;
 }
 
-/* 來自 index.html 的 .dot 樣式，並結合 style.css 的設計 */
 header .dot {
   width: 10px;
   height: 10px;
   background-color: var(--accent);
   border-radius: 50%;
   box-shadow: 0 0 0 4px rgba(227, 144, 197, 0.3);
-  /* 移除 position: absolute 以使用 flex gap 排列 */
 }
 
 
 #stageBadge {
   font-size: 18px;
   color: var(--primary-light);
-  font-weight: 700; /* 使用 index.html 的粗體設定 */
+  font-weight: 700;
   display: block;
   margin-top: 5px;
 }
@@ -101,8 +91,8 @@ header .dot {
 .card {
   background-color: #fff;
   padding: 20px;
-  border-radius: 16px; /* 使用 index.html 的圓角設定 */
-  box-shadow: 0 8px 24px rgba(0,0,0,.06); /* 使用 index.html 的陰影設定 */
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
   margin-top: 20px;
 }
 
@@ -122,15 +112,15 @@ p {
 .muted {
   color: var(--text-muted);
   font-size: 14px;
-  opacity: .7; /* 來自 index.html */
+  opacity: .7;
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px; /* 元素間距 */
-  flex-wrap: wrap; /* 內容過多時換行 */
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .spacer {
@@ -139,7 +129,7 @@ p {
 
 /* ----- 3. 按鈕 (Buttons) ----- */
 .btn {
-  appearance: none; /* 來自 index.html */
+  appearance: none;
   border: none;
   padding: 10px 20px;
   border-radius: 25px;
@@ -173,7 +163,7 @@ p {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-  opacity: .5; /* 來自 index.html */
+  opacity: .5;
 }
 
 .btn.selected {
@@ -250,7 +240,7 @@ input[type="text"]:focus {
 .choices {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px; /* 選項按鈕間距 */
+  gap: 8px;
   justify-content: center;
   margin-bottom: 15px;
 }
@@ -357,15 +347,28 @@ input[type="text"]:focus {
   transform: rotateY(180deg);
 }
 
+/***** 💡 START: 最終修正 *****/
+
+/* 修正 1：重新定義匹配成功後的樣式 (移除綠色框) */
 .match-card.is-matched {
   opacity: 0.7;
+  cursor: default;
   pointer-events: none;
-  border-color: var(--ok);
-  box-shadow: 0 0 0 2px var(--ok-light, rgba(76, 175, 80, 0.4));
+  border-color: var(--primary); /* 邊框恢復為預設的紫色 */
+  box-shadow: none;          /* 移除外發光效果 */
 }
+
+/* 修正 2：強制確保匹配成功的卡片保持正面朝上 */
+.match-card.is-flipped.is-matched {
+  transform: rotateY(180deg);
+}
+
+/***** 💡 END: 最終修正 *****/
 
 .match-card .face {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
@@ -474,14 +477,14 @@ input[type="text"]:focus {
 /* ----- 6. 響應式設計 (Responsive Design) ----- */
 @media (max-width: 480px) {
   body {
-    padding: 0; /* 在小螢幕上移除 body 的 padding */
+    padding: 0;
   }
   
   .wrap {
     padding: 20px 15px;
     border-radius: 0;
     box-shadow: none;
-    height: 100%; /* 讓 wrap 填滿整個畫面 */
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -536,44 +539,4 @@ input[type="text"]:focus {
     height: 70px;
     font-size: 24px;
   }
-}
-/* ===== Stage 2 排版修正程式碼 ===== */
-/* 請將這段程式碼加到 style.css 檔案的最尾端 */
-
-.match-grid {
-  display: grid; /* 再次確保網格佈局 */
-  justify-content: center;
-}
-
-.match-card {
-  padding: 0;
-  border: 2px solid var(--primary);
-  background-color: transparent;
-  position: relative; /* 強制設定父層為相對定位 */
-}
-
-.match-card .face {
-  position: absolute; /* 強制設定子層(牌面)為絕對定位 */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-/* ===== Stage 2 匹配畫面最終修正 ===== */
-/* 請將這段程式碼加到 style.css 檔案的最尾端 */
-
-/* 1. 重新定義匹配成功後的樣式 (移除綠色框) */
-.match-card.is-matched {
-  opacity: 0.7;          /* 保留一點透明效果以示區別 */
-  cursor: default;       /* 滑鼠指標變為預設，表示不可操作 */
-  
-  /* 以下為移除綠色框的設定 */
-  border-color: var(--primary); /* 邊框恢復為預設的紫色 */
-  box-shadow: none;          /* 移除外發光效果 */
-}
-
-/* 2. 強制確保匹配成功的卡片保持正面朝上 */
-/* 這個規則的優先級更高，能修正卡片翻不回正面的問題 */
-.match-card.is-flipped.is-matched {
-  transform: rotateY(180deg);
 }
