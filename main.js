@@ -320,7 +320,7 @@ GameStages.stage3 = (() => {
   function mount() {
     const app = qs('#app');
     app.innerHTML = `
-      <h2>第三關: 搜集資料 Q1–Q4</h2>
+      <h2>第三關: 搜集整理資料</h2>
       <div id="stage3-gate" class="row" style="justify-content:center;margin-bottom:12px">
         <input id="pw3" type="text" placeholder="你知道新人一開始是甚麼關係嗎" />
         <button class="btn" id="go3">解答</button>
@@ -396,7 +396,7 @@ GameStages.stage3 = (() => {
     if (!results) return;
     results.innerHTML = '';
     const btn = document.createElement('button');
-    btn.className = 'btn ' + (allCorrect ? 'result-btn correct' : 'result-btn incorrect');
+    btn.className = 'btn ' + (allCorrect ? 'result-btn correct' : 'result-btn correct');
     btn.textContent = allCorrect ? '已掌握真相!' : '已掌握真相';
     btn.onclick = () => {
       if (allCorrect) { _resolve?.(true); }
@@ -441,7 +441,8 @@ GameStages.stage4 = (() => {
     app.innerHTML = `
       <h2>第四關: 點擊字母解開謎底</h2>
       <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
-        <div>你由魔力之水和新人祝福中得到啟示，用你的直覺告訴你"T---T-----"</div>
+        <div>你由魔力之水和新人祝福中得到啟示
+        用你的直覺告訴你"T---T-----"</div>
         <div>剩餘時間：<b id="time">30.0</b>s</div>
         <div>失誤：<b id="mistakes">0</b></div>
         <div class="spacer" style="flex:1"></div>
