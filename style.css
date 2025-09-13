@@ -435,3 +435,16 @@ input[type="text"]:focus {
   justify-content: center; /* 水平置中容器內的按鈕 */
   margin-top: 25px; /* 增加與上方問題的間距 */
 }
+
+/* ===== 各關卡背景美術設計 ===== */
+
+/* 基礎設定：讓所有關卡的背景都繼承自 .card 的基本樣式 */
+.stage1-bg, .stage2-bg, .stage3-bg, .stage4-bg {
+  background-color: #fff; /* 預設還是白色 */
+}
+
+/* --- 選擇一：主題式背景色 --- */
+.stage1-bg { background-color: #FDF8FF; }
+.stage2-bg { background-color: #F8F5FF; }
+.stage3-bg { background-color: #FFF8FD; }
+.stage4-bg { background-color: #F5F7FF; }
