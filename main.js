@@ -8,7 +8,7 @@ GameStages.stage1 = (() => {
   const correctGateAnswers = [2, 3]; // Qx: C, Qy: H
   const choiceLabels = {
     X: ["紅", "藍", "紫", "橙"],
-    Y: ["E", "F", "G", "H"]
+    Y: ["運動", "藝術", "探險", "解謎"]
   };
   const gateStoryTexts = [
     "【序章】小偵探，請先證明你的觀察力吧。",
