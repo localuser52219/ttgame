@@ -112,7 +112,7 @@ GameStages.stage2 = (() => {
   function mount() {
     const app = document.querySelector('#app');
     app.innerHTML = `
-      <h2>第二關: 訪問證人</h2>
+      <h2>第二關: 訪問情書中的精靈</h2>
       <header class="hud row" style="justify-content:center;gap:16px;margin-bottom:8px">
         <div>配對：<b id="pairs">0</b>/8</div>
         <div>剩餘時間：<b id="time">20.0</b>s</div>
@@ -320,7 +320,7 @@ GameStages.stage3 = (() => {
   function mount() {
     const app = qs('#app');
     app.innerHTML = `
-      <h2>第三關: 思想之謎 Q1–Q4</h2>
+      <h2>第三關: 搜集資料 Q1–Q4</h2>
       <div id="stage3-gate" class="row" style="justify-content:center;margin-bottom:12px">
         <input id="pw3" type="text" placeholder="你知道新人一開始是甚麼關係嗎" />
         <button class="btn" id="go3">解答</button>
@@ -397,7 +397,7 @@ GameStages.stage3 = (() => {
     results.innerHTML = '';
     const btn = document.createElement('button');
     btn.className = 'btn ' + (allCorrect ? 'result-btn correct' : 'result-btn incorrect');
-    btn.textContent = allCorrect ? '已掌握真相' : '再想想看';
+    btn.textContent = allCorrect ? '已掌握真相!' : '已掌握真相';
     btn.onclick = () => {
       if (allCorrect) { _resolve?.(true); }
       else { window.location.href = 'https://ttwedding.jp/altermoment'; }
@@ -574,7 +574,7 @@ GameStages.stage4 = (() => {
   const app = $('#app');
   const badge = $('#stageBadge');
   const setStageLabel = n => {
-    const m = { 1: '第一關:偵辦測驗', 2: '第二關:精靈訪問', 3: '第三關:搜集資訊', 4: '第四關:解開謎底' };
+    const m = { 1: '第一關:偵探小測驗', 2: '第二關:訪問情書中的精靈', 3: '第三關:搜集婚禮中的資訊', 4: '第四關:解開謎底!' };
     if (badge) badge.textContent = m[n] || '歡迎各位';
   };
     
@@ -604,7 +604,7 @@ GameStages.stage4 = (() => {
       <h2>${INTRO.title}</h2>
       <p class="muted" style="font-size:16px;line-height:1.6">${INTRO.lead}</p>
       <ol class="muted" style="margin:12px 0 16px 18px">
-        <li>第一關:偵辦測驗</li>
+        <li>第一關:偵探測驗</li>
         <li>第二關:精靈訪問</li>
         <li>第三關:搜集資訊</li>
         <li>第四關:解開謎底</li>
