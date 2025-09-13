@@ -447,7 +447,7 @@ input[type="text"]:focus {
 /* (如果您選這個，請將下面的 background-image 的註解拿掉) */
 .stage1-bg, .stage3-bg {
   background-color: #fdfafc;
-  background-image: url('https://www.transparenttextures.com/patterns/japanese-sayagata.png');
+  background-image: url('https://www.transparenttextures.com/patterns/arches.png');
 }
 .stage2-bg, .stage4-bg {
   background-color: #f8f5ff;
