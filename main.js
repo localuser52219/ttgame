@@ -29,7 +29,7 @@ GameStages.stage1 = (() => {
           <div class="choices" id="choicesX"></div>
         </div>
         <div id="gate-question-y" style="margin-top:8px">
-          <div class="q">Qy: Dennis 最喜歡的遊戲類型是？</div>
+          <div class="q">Dennis 最喜歡的遊戲類型是？</div>
           <div class="choices" id="choicesY"></div>
         </div>
         <div class="row" style="justify-content:center;margin-top:12px">
@@ -340,14 +340,14 @@ GameStages.stage3 = (() => {
       <div id="results-container" style="display:none"></div>
     `;
     
-    const correctPassword = 'superfriend';
+    const correctPassword =  ['boardgame', '桌遊'];
     const hint = qs('#pwhint3');
     const { e2e } = parseQuery();
 
     qs('#go3').onclick = () => {
-      const val = qs('#pw3').value;
-      if (!pwEqual(val, correctPassword)) {
-        hint.textContent = '留意新人故事';
+      const userInput = (qs('#pw3').value || '').trim().toLowerCase(); // 先整理使用者輸入
+      if (!correctPasswords.includes(userInput)) {
+        hint.textContent = '京都情書是一種？';
         return;
       }
       startQ14();
@@ -441,8 +441,9 @@ GameStages.stage4 = (() => {
     app.innerHTML = `
       <h2>第四關: 點擊字母解開謎底</h2>
       <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
-        <div>魔力之水和新人祝福中給你啟示</div>
-        <div>你的直覺告訴你"T---T-----"</div>
+        <div>因為這裡的水都有魔力，畫家畫出了傳奇的作品</div>
+        <div>魔力之水和新人祝福中會給你啟示</div>
+        <div>T---T-----</div>
         <div>剩餘時間：<b id="time">30.0</b>s</div>
         <div>失誤：<b id="mistakes">0</b></div>
         <div class="spacer" style="flex:1"></div>
@@ -620,15 +621,15 @@ GameStages.stage4 = (() => {
     return new Promise(resolve => {
       app.innerHTML = `
         <h2>休息時間（等待指示）</h2>
-        <p class="muted">請輸入口令 後繼續。</p>
+        <p class="muted">你知道小精靈的京都情書是甚麼？</p>
         <div class="row">
-          <input id="pw2" type="text" placeholder="新郎新娘的關係" />
+          <input id="pw2" type="text" placeholder="京都情書是甚麼" />
           <button class="btn" id="go">進入 第三關</button>
         </div>
         <p id="pwhint2" class="muted" style="margin-top:8px"></p>
       `;
       const hint = $('#pwhint2');
-      if (!p2) hint.textContent = '提示：留意影片或直接向新人查問';
+      if (!p2) hint.textContent = '提示：稍後會公布，也可以直接問新人';
       $('#go').onclick = () => {
         const val = $('#pw2').value;
         if (!pwEqual(val, p2)) { hint.textContent = '不正確'; return; }
