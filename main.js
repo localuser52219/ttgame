@@ -340,14 +340,18 @@ GameStages.stage3 = (() => {
       <div id="results-container" style="display:none"></div>
     `;
     
-    const correctPassword =  ['boardgame', '桌遊'];
+    // 綁定口令事件
+    //  1. 將單一密語改成一個包含多個密語的陣列
+    // 請將 '另一個答案' 替換成您想要的第二個正確密語
+    const correctPasswords = ['boardgame', '桌遊'];
     const hint = qs('#pwhint3');
     const { e2e } = parseQuery();
 
     qs('#go3').onclick = () => {
+      // 💡 2. 修改判斷邏輯，檢查輸入的內容是否存在於陣列中
       const userInput = (qs('#pw3').value || '').trim().toLowerCase(); // 先整理使用者輸入
       if (!correctPasswords.includes(userInput)) {
-        hint.textContent = '京都情書是一種？';
+        hint.textContent = '新人會公布或者直接問新人吧';
         return;
       }
       startQ14();
