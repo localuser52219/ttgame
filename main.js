@@ -322,7 +322,7 @@ GameStages.stage3 = (() => {
     app.innerHTML = `
       <h2>第三關: 搜集整理資料</h2>
       <div id="stage3-gate" class="row" style="justify-content:center;margin-bottom:12px">
-        <input id="pw3" type="text" placeholder="你知道新人一開始是甚麼關係嗎" />
+        <input id="pw3" type="text" placeholder="京都情書是甚麼?" />
         <button class="btn" id="go3">解答</button>
         <p id="pwhint3" class="muted" style="margin:6px 0 0 0;width:100%;text-align:center"></p>
       </div>
