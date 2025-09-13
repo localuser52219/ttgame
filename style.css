@@ -414,3 +414,24 @@ input[type="text"]:focus {
   }
   .tap-btn { width: 70px; height: 70px; font-size: 24px; }
 }
+/* ===== Stage 3 樣式修正 ===== */
+
+/* 3. 讓 Q1-Q4 的選項變為 2x2 的網格佈局 */
+#main-questions .choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 建立兩欄等寬的網格 */
+  gap: 10px; /* 設定選項之間的間距 */
+  max-width: 450px; /* 設定最大寬度以利置中 */
+  margin: 15px auto; /* 讓整個選項區塊水平置中 */
+}
+
+#main-questions .choices button {
+  width: 100%; /* 讓按鈕填滿網格的欄位 */
+}
+
+/* 4. 讓「已掌握真相」按鈕置中 */
+#results-container {
+  display: flex;
+  justify-content: center; /* 水平置中容器內的按鈕 */
+  margin-top: 25px; /* 增加與上方問題的間距 */
+}
