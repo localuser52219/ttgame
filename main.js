@@ -7,12 +7,12 @@ const GameStages = {};
 GameStages.stage1 = (() => {
   const correctGateAnswers = [2, 3]; // Qx: C, Qy: H
   const choiceLabels = {
-    X: ["A", "B", "C", "D"],
+    X: ["紅", "藍", "紫", "橙"],
     Y: ["E", "F", "G", "H"]
   };
   const gateStoryTexts = [
-    "【序章】有人預告會「借走」一件重要物件。請先通過兩題守門問題。",
-    "【提示】留意京都、八阪之塔、紫色與婚禮線索。"
+    "【序章】小偵探，請先證明你的觀察力吧。",
+    "【提示】輕鬆的小遊戲，會帶你完成整個故事"
   ];
 
   let _resolve;
@@ -21,11 +21,11 @@ GameStages.stage1 = (() => {
   function mount() {
     const app = document.querySelector('#app');
     app.innerHTML = `
-      <h2>Stage1: QxQy 守門</h2>
+      <h2>第一關：偵探觀察力測試</h2>
       <div id="story-text" class="muted" style="text-align:center;margin-bottom:12px"></div>
       <div class="question-block">
         <div id="gate-question-x">
-          <div class="q">Qx: Tracy 最喜歡的季節是？</div>
+          <div class="q">Tracy 最喜歡的顏色是？</div>
           <div class="choices" id="choicesX"></div>
         </div>
         <div id="gate-question-y" style="margin-top:8px">
@@ -112,11 +112,11 @@ GameStages.stage2 = (() => {
   function mount() {
     const app = document.querySelector('#app');
     app.innerHTML = `
-      <h2>Stage2: 配對遊戲</h2>
+      <h2>第二關: 訪問證人</h2>
       <header class="hud row" style="justify-content:center;gap:16px;margin-bottom:8px">
         <div>配對：<b id="pairs">0</b>/8</div>
         <div>剩餘時間：<b id="time">20.0</b>s</div>
-        <div>翻牌次數：<b id="moves">0</b></div>
+        <div>查問次數：<b id="moves">0</b></div>
         <div class="spacer" style="flex:1"></div>
         <button id="restart" class="btn">重新開始</button>
         <button id="giveup" class="btn" style="background:var(--bad)">放棄</button>
@@ -149,7 +149,7 @@ GameStages.stage2 = (() => {
       back: "/images/back.png"
     },
     onWin: ({ timeSec, moves }) => {
-      setText('#result', `完成，用時 ${timeSec.toFixed(1)}s，翻牌 ${moves} 次`);
+      setText('#result', `完成，用時 ${timeSec.toFixed(1)}s，訪問 ${moves} 次`);
       qs('#result').className = 'result ok';
       setTimeout(() => _resolve?.(true), 200);
     },
@@ -300,10 +300,10 @@ GameStages.stage3 = (() => {
   let _resolve;
   const correctAnswers = [2, 0, 1, 3];
   const answerTips = [
-    "他不是陌生人。",
-    "他只想再借一次當年的那道光。",
-    "他知道你會懷疑，但他也知道，只有你會懂那份重量。",
-    "他曾經在這裡承諾一生，想再說一次。"
+    "神秘人很熟悉這個環境，不是陌生人。",
+    "要帶走的東西對他同樣重要。",
+    "留下的紙條帶有不屬於現實的藍光。",
+    "他曾經在這裡承諾一生。"
   ];
   const choiceLabels = {
     "1": ["A. 2017", "B. 2018", "C. 2019", "D. 2020"],
@@ -320,21 +320,21 @@ GameStages.stage3 = (() => {
   function mount() {
     const app = qs('#app');
     app.innerHTML = `
-      <h2>Stage3: 問題 Q1–Q4</h2>
+      <h2>第三關: 思想之謎 Q1–Q4</h2>
       <div id="stage3-gate" class="row" style="justify-content:center;margin-bottom:12px">
-        <input id="pw3" type="text" placeholder="輸入口令 3" />
-        <button class="btn" id="go3">開始答題</button>
+        <input id="pw3" type="text" placeholder="你知道新人一開始是甚麼關係嗎" />
+        <button class="btn" id="go3">解答</button>
         <p id="pwhint3" class="muted" style="margin:6px 0 0 0;width:100%;text-align:center"></p>
       </div>
       <div id="story-text" style="display:none;text-align:center; font-size:18px; margin-bottom:12px; color:#5c3e67;"></div>
       <div id="main-questions" style="display:none">
-        <div class="q">Q1: Tracy 與 Dennis 是在哪一年認識的？</div>
+        <div class="q">Tracy 與 Dennis 是在哪一年認識的？</div>
         <div class="choices" id="choices1"></div>
-        <div class="q">Q2: 他們的婚禮網站網址是？</div>
+        <div class="q">他們的婚禮網站網址是？</div>
         <div class="choices" id="choices2"></div>
-        <div class="q">Q3: 京都情書中，哪種小動物沒有出現？</div>
+        <div class="q">京都情書中，哪種小動物沒有出現？</div>
         <div class="choices" id="choices3"></div>
-        <div class="q">Q4: 神秘人想要偷走的東西是？</div>
+        <div class="q">神秘人想要借走的東西是？</div>
         <div class="choices" id="choices4"></div>
       </div>
       <div id="results-container" style="display:none"></div>
@@ -365,7 +365,7 @@ GameStages.stage3 = (() => {
     if (story) { story.style.display = 'block'; }
     if (main) { main.style.display = 'block'; }
     if (results) { results.style.display = 'none'; results.innerHTML = ''; }
-    typeStory("神秘人偷偷留下的線索，提到一樣「重要的物品」將會被「借走」。為了守護這場婚禮，邀請你一同找出真相。但要解開這場謎題，你需要對新人的故事足夠了解。那個才是可疑的人呢？");
+    typeStory("你很接近真相了，要解開這場謎題，只需要對新人的故事足夠了解。");
     for (let k = 1; k <= 4; k++) makeChoices(k);
   }
 
@@ -439,9 +439,9 @@ GameStages.stage4 = (() => {
   function mount() {
     const app = document.querySelector('#app');
     app.innerHTML = `
-      <h2>Stage4: 快速點擊字母</h2>
+      <h2>第四關: 點擊字母解開詸底了</h2>
       <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
-        <div>下一個字母：<b id="next">A</b></div>
+        <div>你由魔力之水和新人祝福中得到答案，用你的直覺點出</div>
         <div>剩餘時間：<b id="time">30.0</b>s</div>
         <div>失誤：<b id="mistakes">0</b></div>
         <div class="spacer" style="flex:1"></div>
@@ -452,7 +452,7 @@ GameStages.stage4 = (() => {
       <div id="tap-msg" class="muted" style="text-align:center;margin-top:8px"></div>
     `;
     const { target } = parseQuery();
-    const DEFAULT = 'Happymarriage';
+    const DEFAULT = 'timetravel';
     state = {
       word: (target && target.trim()) ? target : DEFAULT,
       idx: 0, secs: 30, mistakes: 0, playing: false, rafId: null, tStart: 0,
@@ -574,8 +574,8 @@ GameStages.stage4 = (() => {
   const app = $('#app');
   const badge = $('#stageBadge');
   const setStageLabel = n => {
-    const m = { 1: 'Stage1 QxQy', 2: 'Stage2 配對', 3: 'Stage3 Q1–Q4', 4: 'Stage4 快速點擊' };
-    if (badge) badge.textContent = m[n] || '初始化';
+    const m = { 1: '第一關:偵辦測驗', 2: '第二關:精靈訪問', 3: '第三關:搜集資訊', 4: '第四關:解開謎底' };
+    if (badge) badge.textContent = m[n] || '歡迎各位';
   };
     
   const pwEqual = (a, b) => {
@@ -604,12 +604,12 @@ GameStages.stage4 = (() => {
       <h2>${INTRO.title}</h2>
       <p class="muted" style="font-size:16px;line-height:1.6">${INTRO.lead}</p>
       <ol class="muted" style="margin:12px 0 16px 18px">
-        <li>Stage 1：守門題 QxQy</li>
-        <li>Stage 2：配對遊戲</li>
-        <li>Stage 3：Q1–Q4（需口令）</li>
-        <li>Stage 4：快速點擊</li>
+        <li>第一關:偵辦測驗</li>
+        <li>第二關:精靈訪問</li>
+        <li>第三關:搜集資訊</li>
+        <li>第四關:解開謎底</li>
       </ol>
-      <button id="startBtn" class="btn">開始查案</button>
+      <button id="startBtn" class="btn">開始調查</button>
     `;
     $('#startBtn').onclick = () => runPipeline();
   }
@@ -618,19 +618,19 @@ GameStages.stage4 = (() => {
     const { p2 } = getParams();
     return new Promise(resolve => {
       app.innerHTML = `
-        <h2>口令關卡（前往 Stage3）</h2>
-        <p class="muted">請輸入口令 2 後繼續。</p>
+        <h2>休息時間（等待指示）</h2>
+        <p class="muted">請輸入口令 後繼續。</p>
         <div class="row">
-          <input id="pw2" type="text" placeholder="輸入口令 2" />
-          <button class="btn" id="go">進入 Stage3</button>
+          <input id="pw2" type="text" placeholder="新郎新娘的關係" />
+          <button class="btn" id="go">進入 第三關</button>
         </div>
         <p id="pwhint2" class="muted" style="margin-top:8px"></p>
       `;
       const hint = $('#pwhint2');
-      if (!p2) hint.textContent = '提示：未設定 ?p2=...（開發模式任意通過）';
+      if (!p2) hint.textContent = '提示：留意影片或直接向新人查問';
       $('#go').onclick = () => {
         const val = $('#pw2').value;
-        if (!pwEqual(val, p2)) { hint.textContent = '口令不正確'; return; }
+        if (!pwEqual(val, p2)) { hint.textContent = '不正確'; return; }
         resolve(true);
       };
       if (!p2) setTimeout(() => resolve(true), 200);
@@ -639,12 +639,12 @@ GameStages.stage4 = (() => {
 
   async function runPipeline() {
     GameState.stage = 1; setStageLabel(1); Stages[1].mount();
-    if (!(await Stages[1].run())) return endFail('Stage1 未通過');
+    if (!(await Stages[1].run())) return endFail('第一關 未通過');
 
     GameState.stage = 2; setStageLabel(2); Stages[2].mount();
     if (!(await Stages[2].run())) return retryOrStop(2);
 
-    if (!(await renderGate2())) return endFail('口令 2 未通過');
+    if (!(await renderGate2())) return endFail('未通過');
 
     GameState.stage = 3; setStageLabel(3); Stages[3].mount();
     if (!(await Stages[3].run())) return retryOrStop(3);
@@ -670,7 +670,7 @@ GameStages.stage4 = (() => {
         <button class="btn" id="retry">重試本關</button>
         <button class="btn" id="stop" style="background:var(--bad)">結束</button>
       </div>
-      <p class="muted">依原規則可重試本關。</p>`;
+      <p class="muted">重試本關。</p>`;
     $('#retry').onclick = () => {
       const S = Stages[stageNo]; setStageLabel(stageNo); S.mount();
       S.run().then(ok => ok ? runPipelineFrom(stageNo + 1) : retryOrStop(stageNo));
@@ -680,7 +680,7 @@ GameStages.stage4 = (() => {
   async function runPipelineFrom(next) {
     switch (next) {
       case 2: { GameState.stage = 2; setStageLabel(2); Stages[2].mount(); if (!(await Stages[2].run())) return retryOrStop(2); return runPipelineFrom(3); }
-      case 3: { if (!(await renderGate2())) return endFail('口令 2 未通過'); GameState.stage = 3; setStageLabel(3); Stages[3].mount(); if (!(await Stages[3].run())) return retryOrStop(3); return runPipelineFrom(4); }
+      case 3: { if (!(await renderGate2())) return endFail('未通過'); GameState.stage = 3; setStageLabel(3); Stages[3].mount(); if (!(await Stages[3].run())) return retryOrStop(3); return runPipelineFrom(4); }
       case 4: { GameState.stage = 4; setStageLabel(4); Stages[4].mount(); if (!(await Stages[4].run())) return retryOrStop(4); return endOk(); }
       default: return endOk();
     }
