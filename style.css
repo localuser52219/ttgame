@@ -443,8 +443,13 @@ input[type="text"]:focus {
   background-color: #fff; /* 預設還是白色 */
 }
 
-/* --- 選擇一：主題式背景色 --- */
-.stage1-bg { background-color: #FDF8FF; }
-.stage2-bg { background-color: #F8F5FF; }
-.stage3-bg { background-color: #FFF8FD; }
-.stage4-bg { background-color: #F5F7FF; }
+/* --- 選擇二：質感背景紋理 --- */
+/* (如果您選這個，請將下面的 background-image 的註解拿掉) */
+.stage1-bg, .stage3-bg {
+  background-color: #fdfafc;
+  background-image: url('https://www.transparenttextures.com/patterns/japanese-sayagata.png');
+}
+.stage2-bg, .stage4-bg {
+  background-color: #f8f5ff;
+  background-image: url('https://www.transparenttextures.com/patterns/lined-paper.png');
+}
