@@ -20,6 +20,7 @@ GameStages.stage1 = (() => {
 
   function mount() {
     const app = document.querySelector('#app');
+    app.className = 'card stage1-bg'; // 
     app.innerHTML = `
       <h2>第一關：偵探觀察力測試</h2>
       <div id="story-text" class="muted" style="text-align:center;margin-bottom:12px"></div>
@@ -111,6 +112,7 @@ GameStages.stage2 = (() => {
 
   function mount() {
     const app = document.querySelector('#app');
+    app.className = 'card stage2-bg'; // 
     app.innerHTML = `
       <h2>第二關: 訪問情書中的精靈</h2>
       <header class="hud row" style="justify-content:center;gap:16px;margin-bottom:8px">
@@ -319,6 +321,7 @@ GameStages.stage3 = (() => {
 
   function mount() {
     const app = qs('#app');
+    app.className = 'card stage3-bg'; // 
     app.innerHTML = `
       <h2>第三關: 搜集整理資料</h2>
       <div id="stage3-gate" class="row" style="justify-content:center;margin-bottom:12px">
@@ -442,6 +445,7 @@ GameStages.stage4 = (() => {
 
   function mount() {
     const app = document.querySelector('#app');
+    app.className = 'card stage4-bg'; // 
     app.innerHTML = `
       <h2>第四關: 點擊字母解開謎底</h2>
       <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
