@@ -157,7 +157,7 @@ p {
 .btn.result-btn.correct { background-color: var(--ok); }
 .btn.result-btn.correct:hover { background-color: #66BB6A; }
 .btn.result-btn.incorrect { background-color: var(--bad); }
-.btn.result-btn.incorrect:hover { background-color: #E53935; }
+.btn.result-btn.incorrect:hover { background-color: #66BB6A; }
 
 /* ----- 4. 輸入框 (Inputs) ----- */
 input[type="text"] {
