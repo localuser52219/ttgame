@@ -575,7 +575,7 @@ GameStages.stage4 = (() => {
   const app = $('#app');
   const badge = $('#stageBadge');
   const setStageLabel = n => {
-    const m = { 1: '第一關:偵探小測驗', 2: '第二關:訪問情書中的精靈', 3: '第三關:搜集婚禮中的資訊', 4: '第四關:解開謎底!' };
+    const m = { 1: '考考你偵探觀察力', 2: '找出各位精靈訪問一下', 3: '別忘了和新娘新郎拍照', 4: '是時候解開謎底了!' };
     if (badge) badge.textContent = m[n] || '歡迎各位';
   };
     
