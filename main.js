@@ -568,7 +568,7 @@ GameStages.stage4 = (() => {
   const GameState = { stage: 0 };
   const INTRO = {
     title: '尋找線索，守護婚禮',
-    lead: '有人預告會「借走」一件重要物件。請化身調查員，按順序破解四道關卡。'
+    lead: '有人預告會「借走」一件重要東西。請化身調查員，按順序破解四道關卡。'
   };
 
   const $ = (s, el = document) => el.querySelector(s);
@@ -604,12 +604,12 @@ GameStages.stage4 = (() => {
     app.innerHTML = `
       <h2>${INTRO.title}</h2>
       <p class="muted" style="font-size:16px;line-height:1.6">${INTRO.lead}</p>
-      <ol class="muted" style="margin:12px 0 16px 18px">
+      <ul class="muted" style="list-style-type: none; padding-left: 0; margin: 12px 0 16px 0;">
         <li>第一關:偵探測驗</li>
-        <li>第二關:精靈訪問</li>
+        <li>第二關:訪問精靈</li>
         <li>第三關:搜集資訊</li>
         <li>第四關:解開謎底</li>
-      </ol>
+      </ul>
       <button id="startBtn" class="btn">開始調查</button>
     `;
     $('#startBtn').onclick = () => runPipeline();
