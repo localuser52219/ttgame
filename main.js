@@ -441,8 +441,8 @@ GameStages.stage4 = (() => {
     app.innerHTML = `
       <h2>第四關: 點擊字母解開謎底</h2>
       <div class="row" style="justify-content:center;gap:16px;margin-bottom:8px">
-        <div>你由魔力之水和新人祝福中得到啟示
-        用你的直覺告訴你"T---T-----"</div>
+        <div>魔力之水和新人祝福中給你啟示</div>
+        <div>你的直覺告訴你"T---T-----"</div>
         <div>剩餘時間：<b id="time">30.0</b>s</div>
         <div>失誤：<b id="mistakes">0</b></div>
         <div class="spacer" style="flex:1"></div>
